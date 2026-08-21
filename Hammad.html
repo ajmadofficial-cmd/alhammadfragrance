@@ -14,6 +14,185 @@
     color: #e4e4e7;
     min-height: 100vh;
   }
+
+  /* ============ LOGIN SCREEN ============ */
+  .login-screen {
+    position: fixed; inset: 0;
+    background: radial-gradient(ellipse at top, #1a1a2e 0%, #0f0f14 60%);
+    display: flex; align-items: center; justify-content: center;
+    z-index: 9999;
+    padding: 20px;
+  }
+  .login-screen.hidden { display: none; }
+
+  .login-bg-orb {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(80px);
+    opacity: 0.4;
+    pointer-events: none;
+  }
+  .login-bg-orb.orb1 {
+    width: 400px; height: 400px;
+    background: #f59e0b;
+    top: -100px; left: -100px;
+    animation: float 8s ease-in-out infinite;
+  }
+  .login-bg-orb.orb2 {
+    width: 300px; height: 300px;
+    background: #8b5cf6;
+    bottom: -80px; right: -80px;
+    animation: float 10s ease-in-out infinite reverse;
+  }
+  @keyframes float {
+    0%, 100% { transform: translate(0, 0); }
+    50% { transform: translate(30px, -30px); }
+  }
+
+  .login-card {
+    position: relative;
+    background: rgba(22, 22, 30, 0.85);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 24px;
+    padding: 40px 36px;
+    width: 100%; max-width: 420px;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+    animation: slideUp 0.5s ease-out;
+  }
+  @keyframes slideUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .login-logo {
+    width: 64px; height: 64px;
+    background: linear-gradient(135deg, #f59e0b, #d97706);
+    border-radius: 18px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 28px; color: #fff;
+    margin: 0 auto 20px;
+    box-shadow: 0 10px 30px rgba(245,158,11,0.3);
+  }
+
+  .login-card h2 {
+    text-align: center;
+    font-size: 24px; font-weight: 700;
+    background: linear-gradient(90deg, #fbbf24, #f59e0b);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    margin-bottom: 6px;
+  }
+  .login-card .subtitle {
+    text-align: center;
+    font-size: 13px; color: #9ca3af;
+    margin-bottom: 28px;
+  }
+
+  .login-field {
+    margin-bottom: 16px;
+  }
+  .login-field label {
+    display: block;
+    font-size: 11px; font-weight: 600;
+    color: #9ca3af;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    margin-bottom: 6px;
+  }
+  .login-input-wrap {
+    position: relative;
+  }
+  .login-input-wrap i.field-icon {
+    position: absolute;
+    left: 14px; top: 50%;
+    transform: translateY(-50%);
+    color: #6b7280;
+    font-size: 14px;
+    pointer-events: none;
+  }
+  .login-input-wrap input {
+    width: 100%;
+    padding: 12px 42px 12px 40px;
+    background: #1e1e2a;
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 10px;
+    color: #e4e4e7;
+    font-size: 14px;
+    font-family: 'Inter', sans-serif;
+    transition: all 0.2s;
+  }
+  .login-input-wrap input:focus {
+    outline: none;
+    border-color: #f59e0b;
+    box-shadow: 0 0 0 3px rgba(245,158,11,0.15);
+  }
+  .login-input-wrap .toggle-pass {
+    position: absolute;
+    right: 12px; top: 50%;
+    transform: translateY(-50%);
+    background: none; border: none;
+    color: #6b7280; cursor: pointer;
+    font-size: 14px;
+    padding: 4px;
+  }
+  .login-input-wrap .toggle-pass:hover { color: #f59e0b; }
+
+  .login-error {
+    background: rgba(239,68,68,0.1);
+    border: 1px solid rgba(239,68,68,0.25);
+    color: #fca5a5;
+    padding: 10px 14px;
+    border-radius: 10px;
+    font-size: 13px;
+    margin-bottom: 14px;
+    display: none;
+    align-items: center;
+    gap: 8px;
+    animation: shake 0.4s;
+  }
+  .login-error.show { display: flex; }
+  @keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-6px); }
+    75% { transform: translateX(6px); }
+  }
+
+  .login-btn {
+    width: 100%;
+    padding: 13px;
+    background: linear-gradient(135deg, #f59e0b, #d97706);
+    color: #fff;
+    border: none;
+    border-radius: 10px;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    font-family: 'Inter', sans-serif;
+    transition: all 0.2s;
+    display: flex; align-items: center; justify-content: center; gap: 8px;
+    margin-top: 8px;
+  }
+  .login-btn:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 10px 30px rgba(245,158,11,0.3);
+  }
+  .login-btn:disabled {
+    opacity: 0.6; cursor: not-allowed;
+    transform: none; box-shadow: none;
+  }
+
+  .login-footer {
+    text-align: center;
+    margin-top: 24px;
+    font-size: 11px;
+    color: #4b5563;
+  }
+  .login-footer i { color: #f59e0b; margin-right: 4px; }
+
+  /* ============ APP (protected) ============ */
+  .app-wrap { display: none; }
+  .app-wrap.active { display: block; }
+
   .app-header {
     background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
     border-bottom: 1px solid rgba(255,255,255,0.06);
@@ -36,15 +215,18 @@
   }
   .app-header p { font-size: 13px; color: #9ca3af; margin-top: 2px; }
 
-  .storage-badge {
+  .header-right {
     margin-left: auto;
+    display: flex; align-items: center; gap: 12px;
+  }
+
+  .storage-badge {
     display: flex; align-items: center; gap: 8px;
     padding: 6px 12px; border-radius: 20px;
     background: rgba(34,197,94,0.12);
     border: 1px solid rgba(34,197,94,0.25);
     font-size: 12px; color: #22c55e; font-weight: 500;
   }
-  .storage-badge i { font-size: 11px; }
   .storage-badge .dot {
     width: 6px; height: 6px; border-radius: 50%;
     background: #22c55e;
@@ -54,6 +236,39 @@
   @keyframes pulse {
     0%, 100% { opacity: 1; }
     50% { opacity: 0.4; }
+  }
+
+  .user-badge {
+    display: flex; align-items: center; gap: 10px;
+    padding: 6px 14px 6px 6px;
+    background: rgba(139,92,246,0.12);
+    border: 1px solid rgba(139,92,246,0.25);
+    border-radius: 24px;
+    font-size: 13px; color: #a78bfa; font-weight: 500;
+  }
+  .user-badge .avatar {
+    width: 28px; height: 28px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #8b5cf6, #6366f1);
+    display: flex; align-items: center; justify-content: center;
+    color: #fff; font-size: 12px; font-weight: 700;
+  }
+
+  .signout-btn {
+    padding: 8px 14px;
+    background: rgba(239,68,68,0.12);
+    border: 1px solid rgba(239,68,68,0.25);
+    border-radius: 8px;
+    color: #ef4444;
+    font-size: 12px; font-weight: 600;
+    cursor: pointer;
+    font-family: 'Inter', sans-serif;
+    display: flex; align-items: center; gap: 6px;
+    transition: all 0.2s;
+  }
+  .signout-btn:hover {
+    background: rgba(239,68,68,0.2);
+    transform: translateY(-1px);
   }
 
   .main-layout {
@@ -87,16 +302,12 @@
     transition: transform 0.2s;
     color: #6b7280;
   }
-  .collapsible-header.open .toggle-icon {
-    transform: rotate(180deg);
-  }
+  .collapsible-header.open .toggle-icon { transform: rotate(180deg); }
   .collapsible-body {
     max-height: 0; overflow: hidden;
     transition: max-height 0.3s ease;
   }
-  .collapsible-body.open {
-    max-height: 2000px;
-  }
+  .collapsible-body.open { max-height: 2000px; }
 
   .field-group { margin-bottom: 14px; }
   .field-group label {
@@ -119,13 +330,12 @@
   .field-group select option { background: #1e1e2a; }
 
   .field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-  .field-row-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; }
 
   .image-upload-area {
     border: 2px dashed rgba(255,255,255,0.1);
     border-radius: 12px; padding: 22px;
     text-align: center; cursor: pointer;
-    transition: all 0.3s; position: relative;
+    transition: all 0.3s;
     overflow: hidden;
   }
   .image-upload-area:hover {
@@ -350,7 +560,7 @@
     font-size: 14px; font-weight: 500;
     display: flex; align-items: center; gap: 8px;
     transform: translateY(100px); opacity: 0;
-    transition: all 0.3s; z-index: 999;
+    transition: all 0.3s; z-index: 99999;
   }
   .toast.show { transform: translateY(0); opacity: 1; }
 
@@ -398,7 +608,6 @@
     background: rgba(245,158,11,0.15); color: #f59e0b;
   }
 
-  /* Variant set editor */
   .variant-set-card {
     background: #1e1e2a;
     border: 1px solid rgba(255,255,255,0.06);
@@ -458,9 +667,7 @@
     display: flex; align-items: center; justify-content: center;
   }
   .variant-row .remove-variant-btn:hover { background: rgba(239,68,68,0.25); }
-  .variant-set-actions {
-    display: flex; gap: 6px; margin-top: 8px;
-  }
+  .variant-set-actions { display: flex; gap: 6px; margin-top: 8px; }
   .remove-set-btn {
     margin-left: auto;
     padding: 5px 10px;
@@ -474,7 +681,6 @@
   }
   .remove-set-btn:hover { background: rgba(239,68,68,0.25); }
 
-  /* Category chips editor */
   .category-editor {
     display: flex; flex-wrap: wrap; gap: 8px; align-items: center;
   }
@@ -498,9 +704,7 @@
     display: flex; align-items: center; justify-content: center;
   }
   .category-chip button:hover { background: rgba(239,68,68,0.4); }
-  .add-category-row {
-    display: flex; gap: 6px; margin-top: 10px;
-  }
+  .add-category-row { display: flex; gap: 6px; margin-top: 10px; }
   .add-category-row input {
     flex: 1;
     padding: 7px 10px;
@@ -513,7 +717,6 @@
   }
   .add-category-row input:focus { outline: none; border-color: #a78bfa; }
 
-  /* Modal */
   .modal-overlay {
     position: fixed; inset: 0;
     background: rgba(0,0,0,0.7);
@@ -536,10 +739,7 @@
   }
   .modal h3 i { color: #f59e0b; }
   .modal p { font-size: 14px; color: #9ca3af; margin-bottom: 16px; line-height: 1.6; }
-  .modal-actions {
-    display: flex; gap: 10px; justify-content: flex-end;
-    margin-top: 20px;
-  }
+  .modal-actions { display: flex; gap: 10px; justify-content: flex-end; margin-top: 20px; }
   .modal-actions .btn { width: auto; }
 
   .import-summary {
@@ -555,10 +755,49 @@
   .import-summary .row span:first-child { color: #9ca3af; }
   .import-summary .row span:last-child { color: #f59e0b; font-weight: 600; }
 
+  /* Confirm modal */
+  .confirm-modal {
+    position: fixed; inset: 0;
+    background: rgba(0,0,0,0.7);
+    backdrop-filter: blur(4px);
+    display: none;
+    align-items: center; justify-content: center;
+    z-index: 10000;
+  }
+  .confirm-modal.show { display: flex; }
+  .confirm-box {
+    background: #16161e;
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 16px;
+    width: 90%; max-width: 400px;
+    padding: 28px;
+    text-align: center;
+  }
+  .confirm-box .icon-wrap {
+    width: 64px; height: 64px;
+    border-radius: 50%;
+    background: rgba(239,68,68,0.12);
+    display: flex; align-items: center; justify-content: center;
+    margin: 0 auto 16px;
+    font-size: 28px; color: #ef4444;
+  }
+  .confirm-box h3 {
+    font-size: 18px; margin-bottom: 8px;
+  }
+  .confirm-box p {
+    font-size: 14px; color: #9ca3af; margin-bottom: 20px; line-height: 1.6;
+  }
+  .confirm-actions {
+    display: flex; gap: 10px; justify-content: center;
+  }
+  .confirm-actions .btn { width: auto; min-width: 120px; justify-content: center; }
+
   @media (max-width: 900px) {
     .main-layout { grid-template-columns: 1fr; }
     .form-panel { max-height: none; }
     .output-panel { max-height: none; }
+    .header-right { flex-wrap: wrap; justify-content: flex-end; }
+    .user-badge .name-text { display: none; }
   }
 
   ::-webkit-scrollbar { width: 6px; }
@@ -569,198 +808,249 @@
 </head>
 <body>
 
-<header class="app-header">
-  <div class="logo"><i class="fas fa-code"></i></div>
-  <div>
-    <h1>Product Code Generator</h1>
-    <p>Build product arrays visually — select images, set properties, export code</p>
-  </div>
-  <div class="storage-badge" id="storageBadge" title="Data saved in browser">
-    <span class="dot"></span>
-    <i class="fas fa-database"></i>
-    <span id="storageLabel">Auto-saved</span>
-  </div>
-</header>
+<!-- ============ LOGIN SCREEN ============ -->
+<div class="login-screen" id="loginScreen">
+  <div class="login-bg-orb orb1"></div>
+  <div class="login-bg-orb orb2"></div>
+  <div class="login-card">
+    <div class="login-logo"><i class="fas fa-code"></i></div>
+    <h2>Welcome Back</h2>
+    <p class="subtitle">Sign in to access the Product Code Generator</p>
 
-<div class="main-layout">
-  <div class="form-panel">
-
-    <!-- CONFIG: Variants & Categories -->
-    <div class="form-section" style="padding-bottom:0;">
-      <div class="collapsible-header" id="configHeader">
-        <h3 style="margin-bottom:0;"><i class="fas fa-sliders-h"></i> Variants & Categories Config</h3>
-        <i class="fas fa-chevron-down toggle-icon"></i>
-      </div>
+    <div class="login-error" id="loginError">
+      <i class="fas fa-exclamation-circle"></i>
+      <span id="loginErrorMsg">Invalid credentials</span>
     </div>
-    <div class="collapsible-body" id="configBody">
-      <div class="form-section">
-        <label style="font-size:11px;color:#6b7280;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:8px;display:block;">Variant Sets</label>
-        <div id="variantSetsContainer"></div>
-        <button class="btn btn-secondary btn-xs" id="addVariantSetBtn" style="margin-top:6px;">
-          <i class="fas fa-plus"></i> Add Variant Set
-        </button>
-      </div>
 
-      <div class="form-section">
-        <label style="font-size:11px;color:#6b7280;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:8px;display:block;">Categories</label>
-        <div class="category-editor" id="categoryEditor"></div>
-        <div class="add-category-row">
-          <input type="text" id="newCategoryInput" placeholder="New category name...">
-          <button class="btn btn-secondary btn-xs" id="addCategoryBtn"><i class="fas fa-plus"></i></button>
+    <form id="loginForm" autocomplete="off">
+      <div class="login-field">
+        <label>Username</label>
+        <div class="login-input-wrap">
+          <i class="fas fa-user field-icon"></i>
+          <input type="text" id="loginUser" placeholder="Enter your username" autocomplete="off" required>
         </div>
       </div>
-    </div>
 
-    <!-- PRODUCT DETAILS -->
-    <div class="form-section">
-      <h3><i class="fas fa-box"></i> Product Details</h3>
-      <div class="field-row">
-        <div class="field-group">
-          <label>Product ID</label>
-          <input type="text" id="prodId" placeholder="e.g. p1">
-        </div>
-        <div class="field-group">
-          <label>Weight (kg)</label>
-          <input type="number" id="prodWt" step="0.01" placeholder="e.g. 0.25">
-        </div>
-      </div>
-      <div class="field-group">
-        <label>Product Name</label>
-        <input type="text" id="prodName" placeholder="e.g. Aqua-CK">
-      </div>
-      <div class="field-row">
-        <div class="field-group">
-          <label>Category</label>
-          <select id="prodCat"></select>
-        </div>
-        <div class="field-group">
-          <label>Variant Set</label>
-          <select id="prodVariantSelect"></select>
-        </div>
-      </div>
-      <div class="field-group">
-        <label>Description</label>
-        <textarea id="prodDesc" placeholder="Enter product description..."></textarea>
-      </div>
-    </div>
-
-    <div class="form-section">
-      <h3><i class="fas fa-tag"></i> Tag / Label</h3>
-      <div class="tag-chips" id="tagChips">
-        <div class="tag-chip" data-tag="Gift Set">Gift Set</div>
-        <div class="tag-chip" data-tag="Bestseller">Bestseller</div>
-        <div class="tag-chip" data-tag="Attar">Attar</div>
-        <div class="tag-chip" data-tag="New">New</div>
-        <div class="tag-chip" data-tag="Premium">Premium</div>
-        <div class="tag-chip" data-tag="Limited">Limited</div>
-        <div class="tag-chip" data-tag="Unisex">Unisex</div>
-        <div class="tag-chip" data-tag="Custom">+ Custom</div>
-      </div>
-      <div class="field-group" id="customTagGroup" style="margin-top:12px; display:none;">
-        <input type="text" id="customTag" placeholder="Enter custom tag...">
-      </div>
-    </div>
-
-    <div class="form-section">
-      <h3><i class="fas fa-image"></i> Product Image</h3>
-      <div class="image-upload-area" id="imageUploadArea">
-        <i class="fas fa-cloud-upload-alt upload-icon"></i>
-        <p>Click to upload image</p>
-        <p class="sub">or paste image path below</p>
-        <input type="file" id="imageFileInput" accept="image/*" style="display:none;">
-      </div>
-      <div class="field-group image-path-input">
-        <label>Image Path (for code output)</label>
-        <input type="text" id="prodImgPath" placeholder="images/product-name.png">
-      </div>
-    </div>
-
-    <div class="form-section">
-      <button class="btn btn-primary" id="addProductBtn">
-        <i class="fas fa-plus"></i> <span id="addBtnText">Add Product</span>
-      </button>
-      <button class="btn btn-secondary" id="resetFormBtn" style="width:100%;justify-content:center;margin-top:8px;">
-        <i class="fas fa-eraser"></i> Reset Form
-      </button>
-    </div>
-  </div>
-
-  <div class="output-panel">
-    <div class="stats-bar">
-      <div class="stat-item">
-        <div class="val" id="statCount">0</div>
-        <div class="lbl">Products</div>
-      </div>
-      <div class="stat-item">
-        <div class="val" id="statTags">0</div>
-        <div class="lbl">Tags</div>
-      </div>
-      <div class="stat-item">
-        <div class="val" id="statCats">0</div>
-        <div class="lbl">Categories</div>
-      </div>
-      <div class="stat-item">
-        <div class="val" id="statVariants">0</div>
-        <div class="lbl">Variant Sets</div>
-      </div>
-    </div>
-
-    <div class="output-toolbar">
-      <h2><i class="fas fa-list" style="color:#f59e0b;margin-right:8px;"></i>Products</h2>
-      <div class="toolbar-actions">
-        <button class="btn btn-info btn-sm" id="importBtn"><i class="fas fa-file-import"></i> Import</button>
-
-        <div class="dropdown">
-          <button class="btn btn-success btn-sm" id="exportBtn">
-            <i class="fas fa-file-export"></i> Export <i class="fas fa-chevron-down" style="font-size:10px;margin-left:4px;"></i>
+      <div class="login-field">
+        <label>Password</label>
+        <div class="login-input-wrap">
+          <i class="fas fa-lock field-icon"></i>
+          <input type="password" id="loginPass" placeholder="Enter your password" autocomplete="off" required>
+          <button type="button" class="toggle-pass" id="togglePass" tabindex="-1">
+            <i class="fas fa-eye"></i>
           </button>
-          <div class="dropdown-menu" id="exportMenu">
-            <button class="dropdown-item" data-export="js">
-              <i class="fab fa-js" style="color:#f7df1e;"></i>
-              Export as JavaScript
-              <span class="ext">.JS</span>
-            </button>
-            <button class="dropdown-item" data-export="json">
-              <i class="fas fa-brackets-curly" style="color:#86efac;"></i>
-              Export as JSON
-              <span class="ext">.JSON</span>
-            </button>
-            <div class="dropdown-divider"></div>
-            <button class="dropdown-item" data-export="copy-js">
-              <i class="fas fa-copy"></i>
-              Copy JS Code
-            </button>
-            <button class="dropdown-item" data-export="copy-json">
-              <i class="fas fa-copy"></i>
-              Copy JSON
-            </button>
+        </div>
+      </div>
+
+      <button type="submit" class="login-btn" id="loginBtn">
+        <i class="fas fa-sign-in-alt"></i> Sign In
+      </button>
+    </form>
+
+    <div class="login-footer">
+      <i class="fas fa-shield-alt"></i> Secure access · Session stored locally
+    </div>
+  </div>
+</div>
+
+<!-- ============ MAIN APP ============ -->
+<div class="app-wrap" id="appWrap">
+  <header class="app-header">
+    <div class="logo"><i class="fas fa-code"></i></div>
+    <div>
+      <h1>Product Code Generator</h1>
+      <p>Build product arrays visually — select images, set properties, export code</p>
+    </div>
+    <div class="header-right">
+      <div class="storage-badge" id="storageBadge" title="Data saved in browser">
+        <span class="dot"></span>
+        <i class="fas fa-database" style="font-size:11px;"></i>
+        <span id="storageLabel">Auto-saved</span>
+      </div>
+      <div class="user-badge" id="userBadge">
+        <div class="avatar" id="userAvatar">A</div>
+        <span class="name-text" id="userName">admin</span>
+      </div>
+      <button class="signout-btn" id="signoutBtn" title="Sign out">
+        <i class="fas fa-sign-out-alt"></i> Sign Out
+      </button>
+    </div>
+  </header>
+
+  <div class="main-layout">
+    <div class="form-panel">
+      <div class="form-section" style="padding-bottom:0;">
+        <div class="collapsible-header" id="configHeader">
+          <h3 style="margin-bottom:0;"><i class="fas fa-sliders-h"></i> Variants & Categories Config</h3>
+          <i class="fas fa-chevron-down toggle-icon"></i>
+        </div>
+      </div>
+      <div class="collapsible-body" id="configBody">
+        <div class="form-section">
+          <label style="font-size:11px;color:#6b7280;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:8px;display:block;">Variant Sets</label>
+          <div id="variantSetsContainer"></div>
+          <button class="btn btn-secondary btn-xs" id="addVariantSetBtn" style="margin-top:6px;">
+            <i class="fas fa-plus"></i> Add Variant Set
+          </button>
+        </div>
+        <div class="form-section">
+          <label style="font-size:11px;color:#6b7280;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:8px;display:block;">Categories</label>
+          <div class="category-editor" id="categoryEditor"></div>
+          <div class="add-category-row">
+            <input type="text" id="newCategoryInput" placeholder="New category name...">
+            <button class="btn btn-secondary btn-xs" id="addCategoryBtn"><i class="fas fa-plus"></i></button>
           </div>
         </div>
+      </div>
 
-        <button class="btn btn-danger btn-sm" id="clearAllBtn"><i class="fas fa-trash"></i> Clear All</button>
+      <div class="form-section">
+        <h3><i class="fas fa-box"></i> Product Details</h3>
+        <div class="field-row">
+          <div class="field-group">
+            <label>Product ID</label>
+            <input type="text" id="prodId" placeholder="e.g. p1">
+          </div>
+          <div class="field-group">
+            <label>Weight (kg)</label>
+            <input type="number" id="prodWt" step="0.01" placeholder="e.g. 0.25">
+          </div>
+        </div>
+        <div class="field-group">
+          <label>Product Name</label>
+          <input type="text" id="prodName" placeholder="e.g. Aqua-CK">
+        </div>
+        <div class="field-row">
+          <div class="field-group">
+            <label>Category</label>
+            <select id="prodCat"></select>
+          </div>
+          <div class="field-group">
+            <label>Variant Set</label>
+            <select id="prodVariantSelect"></select>
+          </div>
+        </div>
+        <div class="field-group">
+          <label>Description</label>
+          <textarea id="prodDesc" placeholder="Enter product description..."></textarea>
+        </div>
+      </div>
+
+      <div class="form-section">
+        <h3><i class="fas fa-tag"></i> Tag / Label</h3>
+        <div class="tag-chips" id="tagChips">
+          <div class="tag-chip" data-tag="Gift Set">Gift Set</div>
+          <div class="tag-chip" data-tag="Bestseller">Bestseller</div>
+          <div class="tag-chip" data-tag="Attar">Attar</div>
+          <div class="tag-chip" data-tag="New">New</div>
+          <div class="tag-chip" data-tag="Premium">Premium</div>
+          <div class="tag-chip" data-tag="Limited">Limited</div>
+          <div class="tag-chip" data-tag="Unisex">Unisex</div>
+          <div class="tag-chip" data-tag="Custom">+ Custom</div>
+        </div>
+        <div class="field-group" id="customTagGroup" style="margin-top:12px; display:none;">
+          <input type="text" id="customTag" placeholder="Enter custom tag...">
+        </div>
+      </div>
+
+      <div class="form-section">
+        <h3><i class="fas fa-image"></i> Product Image</h3>
+        <div class="image-upload-area" id="imageUploadArea">
+          <i class="fas fa-cloud-upload-alt upload-icon"></i>
+          <p>Click to upload image</p>
+          <p class="sub">or paste image path below</p>
+          <input type="file" id="imageFileInput" accept="image/*" style="display:none;">
+        </div>
+        <div class="field-group image-path-input">
+          <label>Image Path (for code output)</label>
+          <input type="text" id="prodImgPath" placeholder="images/product-name.png">
+        </div>
+      </div>
+
+      <div class="form-section">
+        <button class="btn btn-primary" id="addProductBtn">
+          <i class="fas fa-plus"></i> <span id="addBtnText">Add Product</span>
+        </button>
+        <button class="btn btn-secondary" id="resetFormBtn" style="width:100%;justify-content:center;margin-top:8px;">
+          <i class="fas fa-eraser"></i> Reset Form
+        </button>
       </div>
     </div>
 
-    <div class="products-list" id="productsList">
-      <div class="empty-state" id="emptyState">
-        <i class="fas fa-box-open"></i>
-        <h3>No products yet</h3>
-        <p>Fill in the form and click "Add Product" to get started</p>
+    <div class="output-panel">
+      <div class="stats-bar">
+        <div class="stat-item">
+          <div class="val" id="statCount">0</div>
+          <div class="lbl">Products</div>
+        </div>
+        <div class="stat-item">
+          <div class="val" id="statTags">0</div>
+          <div class="lbl">Tags</div>
+        </div>
+        <div class="stat-item">
+          <div class="val" id="statCats">0</div>
+          <div class="lbl">Categories</div>
+        </div>
+        <div class="stat-item">
+          <div class="val" id="statVariants">0</div>
+          <div class="lbl">Variant Sets</div>
+        </div>
       </div>
-    </div>
 
-    <div class="output-tabs" id="outputTabs" style="display:none;">
-      <button class="output-tab active" data-tab="js"><i class="fab fa-js"></i> JS Code</button>
-      <button class="output-tab" data-tab="json"><i class="fas fa-brackets-curly"></i> JSON Preview</button>
-    </div>
-
-    <div class="code-output" id="codeOutput" style="display:none;">
-      <div class="code-header">
-        <span id="codeHeaderLabel"><i class="fas fa-code"></i> JS Code</span>
-        <button class="btn btn-secondary btn-sm" id="copyCodeBtn2"><i class="fas fa-copy"></i> Copy</button>
+      <div class="output-toolbar">
+        <h2><i class="fas fa-list" style="color:#f59e0b;margin-right:8px;"></i>Products</h2>
+        <div class="toolbar-actions">
+          <button class="btn btn-info btn-sm" id="importBtn"><i class="fas fa-file-import"></i> Import</button>
+          <div class="dropdown">
+            <button class="btn btn-success btn-sm" id="exportBtn">
+              <i class="fas fa-file-export"></i> Export <i class="fas fa-chevron-down" style="font-size:10px;margin-left:4px;"></i>
+            </button>
+            <div class="dropdown-menu" id="exportMenu">
+              <button class="dropdown-item" data-export="js">
+                <i class="fab fa-js" style="color:#f7df1e;"></i>
+                Export as JavaScript
+                <span class="ext">.JS</span>
+              </button>
+              <button class="dropdown-item" data-export="json">
+                <i class="fas fa-brackets-curly" style="color:#86efac;"></i>
+                Export as JSON
+                <span class="ext">.JSON</span>
+              </button>
+              <div class="dropdown-divider"></div>
+              <button class="dropdown-item" data-export="copy-js">
+                <i class="fas fa-copy"></i>
+                Copy JS Code
+              </button>
+              <button class="dropdown-item" data-export="copy-json">
+                <i class="fas fa-copy"></i>
+                Copy JSON
+              </button>
+            </div>
+          </div>
+          <button class="btn btn-danger btn-sm" id="clearAllBtn"><i class="fas fa-trash"></i> Clear All</button>
+        </div>
       </div>
-      <div class="code-body">
-        <pre id="codeContent"></pre>
+
+      <div class="products-list" id="productsList">
+        <div class="empty-state" id="emptyState">
+          <i class="fas fa-box-open"></i>
+          <h3>No products yet</h3>
+          <p>Fill in the form and click "Add Product" to get started</p>
+        </div>
+      </div>
+
+      <div class="output-tabs" id="outputTabs" style="display:none;">
+        <button class="output-tab active" data-tab="js"><i class="fab fa-js"></i> JS Code</button>
+        <button class="output-tab" data-tab="json"><i class="fas fa-brackets-curly"></i> JSON Preview</button>
+      </div>
+
+      <div class="code-output" id="codeOutput" style="display:none;">
+        <div class="code-header">
+          <span id="codeHeaderLabel"><i class="fas fa-code"></i> JS Code</span>
+          <button class="btn btn-secondary btn-sm" id="copyCodeBtn2"><i class="fas fa-copy"></i> Copy</button>
+        </div>
+        <div class="code-body">
+          <pre id="codeContent"></pre>
+        </div>
       </div>
     </div>
   </div>
@@ -796,29 +1086,169 @@
   </div>
 </div>
 
+<!-- Sign Out Confirm Modal -->
+<div class="confirm-modal" id="signoutConfirm">
+  <div class="confirm-box">
+    <div class="icon-wrap"><i class="fas fa-sign-out-alt"></i></div>
+    <h3>Sign Out?</h3>
+    <p>Your session will be ended and removed from local storage. You'll need to log in again to continue.</p>
+    <div class="confirm-actions">
+      <button class="btn btn-secondary btn-sm" id="signoutCancelBtn">Cancel</button>
+      <button class="btn btn-danger btn-sm" id="signoutConfirmBtn">
+        <i class="fas fa-sign-out-alt"></i> Sign Out
+      </button>
+    </div>
+  </div>
+</div>
+
 <div class="toast" id="toast"><i class="fas fa-check-circle"></i> <span id="toastMsg">Copied!</span></div>
 
 <script>
+  /* ============================================================
+     AUTHENTICATION
+     ============================================================ */
+  const AUTH_KEY = 'pcg_auth_session';
+  const VALID_USER = 'admin';
+  const VALID_PASS = 'Hashim@123';
+
+  const loginScreen = document.getElementById('loginScreen');
+  const appWrap = document.getElementById('appWrap');
+  const loginForm = document.getElementById('loginForm');
+  const loginUser = document.getElementById('loginUser');
+  const loginPass = document.getElementById('loginPass');
+  const loginError = document.getElementById('loginError');
+  const loginErrorMsg = document.getElementById('loginErrorMsg');
+  const loginBtn = document.getElementById('loginBtn');
+  const togglePass = document.getElementById('togglePass');
+  const signoutBtn = document.getElementById('signoutBtn');
+  const signoutConfirm = document.getElementById('signoutConfirm');
+  const signoutCancelBtn = document.getElementById('signoutCancelBtn');
+  const signoutConfirmBtn = document.getElementById('signoutConfirmBtn');
+  const userName = document.getElementById('userName');
+  const userAvatar = document.getElementById('userAvatar');
+
+  function getSession() {
+    try {
+      const raw = localStorage.getItem(AUTH_KEY);
+      if (!raw) return null;
+      const data = JSON.parse(raw);
+      if (data && data.user && data.loggedInAt) return data;
+    } catch(e) {}
+    return null;
+  }
+
+  function setSession(username) {
+    const data = {
+      user: username,
+      loggedInAt: new Date().toISOString()
+    };
+    localStorage.setItem(AUTH_KEY, JSON.stringify(data));
+  }
+
+  function clearSession() {
+    localStorage.removeItem(AUTH_KEY);
+  }
+
+  function showApp(username) {
+    loginScreen.classList.add('hidden');
+    appWrap.classList.add('active');
+    userName.textContent = username;
+    userAvatar.textContent = username.charAt(0).toUpperCase();
+  }
+
+  function showLogin() {
+    appWrap.classList.remove('active');
+    loginScreen.classList.remove('hidden');
+    loginPass.value = '';
+    loginError.classList.remove('show');
+    loginUser.focus();
+  }
+
+  // Toggle password visibility
+  togglePass.addEventListener('click', () => {
+    const icon = togglePass.querySelector('i');
+    if (loginPass.type === 'password') {
+      loginPass.type = 'text';
+      icon.className = 'fas fa-eye-slash';
+    } else {
+      loginPass.type = 'password';
+      icon.className = 'fas fa-eye';
+    }
+  });
+
+  // Login form submit
+  loginForm.addEventListener('submit', (e) => {
+    e.preventDefault();
+    loginError.classList.remove('show');
+
+    const u = loginUser.value.trim();
+    const p = loginPass.value;
+
+    if (!u || !p) {
+      loginErrorMsg.textContent = 'Please enter both username and password';
+      loginError.classList.add('show');
+      return;
+    }
+
+    loginBtn.disabled = true;
+    loginBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Signing in...';
+
+    // Simulate brief delay for UX
+    setTimeout(() => {
+      if (u === VALID_USER && p === VALID_PASS) {
+        setSession(u);
+        showApp(u);
+        showToast('Welcome back, ' + u + '!');
+        loginBtn.disabled = false;
+        loginBtn.innerHTML = '<i class="fas fa-sign-in-alt"></i> Sign In';
+      } else {
+        loginErrorMsg.textContent = 'Invalid username or password. Please try again.';
+        loginError.classList.add('show');
+        loginPass.value = '';
+        loginPass.focus();
+        loginBtn.disabled = false;
+        loginBtn.innerHTML = '<i class="fas fa-sign-in-alt"></i> Sign In';
+      }
+    }, 400);
+  });
+
+  // Sign out
+  signoutBtn.addEventListener('click', () => {
+    signoutConfirm.classList.add('show');
+  });
+
+  signoutCancelBtn.addEventListener('click', () => {
+    signoutConfirm.classList.remove('show');
+  });
+
+  signoutConfirm.addEventListener('click', (e) => {
+    if (e.target === signoutConfirm) signoutConfirm.classList.remove('show');
+  });
+
+  signoutConfirmBtn.addEventListener('click', () => {
+    clearSession();
+    signoutConfirm.classList.remove('show');
+    showLogin();
+    showToast('Signed out successfully');
+  });
+
+  // Check session on load
+  const existingSession = getSession();
+  if (existingSession) {
+    showApp(existingSession.user);
+  } else {
+    showLogin();
+  }
+
+  /* ============================================================
+     APP LOGIC (only runs after auth)
+     ============================================================ */
   const STORAGE_KEY = 'productCodeGen_v2';
 
-  /* ============ DEFAULT STATE ============ */
   const DEFAULT_VARIANT_SETS = [
-    {
-      name: 'ATTAR_VARIANTS',
-      items: [
-        { label: '6ml', price: 299 },
-        { label: '12ml', price: 599 }
-      ]
-    },
-    {
-      name: 'SIZE_VARIANTS',
-      items: [
-        { label: '50ml', price: 799 },
-        { label: '100ml', price: 1299 }
-      ]
-    }
+    { name: 'ATTAR_VARIANTS', items: [ { label: '6ml', price: 299 }, { label: '12ml', price: 599 } ] },
+    { name: 'SIZE_VARIANTS', items: [ { label: '50ml', price: 799 }, { label: '100ml', price: 1299 } ] }
   ];
-
   const DEFAULT_CATEGORIES = ['All', 'Attar', 'Perfume'];
 
   let products = [];
@@ -830,7 +1260,6 @@
   let activeTab = 'js';
   let pendingImportData = null;
 
-  /* ============ DOM REFS ============ */
   const prodId = document.getElementById('prodId');
   const prodName = document.getElementById('prodName');
   const prodWt = document.getElementById('prodWt');
@@ -855,19 +1284,13 @@
   const variantSetsContainer = document.getElementById('variantSetsContainer');
   const categoryEditor = document.getElementById('categoryEditor');
 
-  /* ============ LOCAL STORAGE ============ */
   function saveToStorage() {
     try {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify({
-        products, variantSets, categories
-      }));
+      localStorage.setItem(STORAGE_KEY, JSON.stringify({ products, variantSets, categories }));
       updateStorageBadge(true);
     } catch (err) {
-      if (err.name === 'QuotaExceededError') {
-        showToast('Storage full! Remove some images.', true);
-      } else {
-        showToast('Could not save', true);
-      }
+      if (err.name === 'QuotaExceededError') showToast('Storage full!', true);
+      else showToast('Could not save', true);
       updateStorageBadge(false);
     }
   }
@@ -881,9 +1304,7 @@
       if (Array.isArray(parsed.variantSets)) variantSets = parsed.variantSets;
       if (Array.isArray(parsed.categories)) categories = parsed.categories;
       return true;
-    } catch (err) {
-      showToast('Could not load saved data', true);
-    }
+    } catch (err) { showToast('Could not load saved data', true); }
     return false;
   }
 
@@ -902,7 +1323,6 @@
     }
   }
 
-  /* ============ COLLAPSIBLE CONFIG ============ */
   const configHeader = document.getElementById('configHeader');
   const configBody = document.getElementById('configBody');
   configHeader.addEventListener('click', () => {
@@ -910,7 +1330,6 @@
     configBody.classList.toggle('open');
   });
 
-  /* ============ VARIANT SETS EDITOR ============ */
   function renderVariantSets() {
     variantSetsContainer.innerHTML = '';
     variantSets.forEach((set, setIdx) => {
@@ -937,87 +1356,58 @@
       variantSetsContainer.appendChild(card);
     });
 
-    // Bind events
     document.querySelectorAll('.variant-set-name-input').forEach(inp => {
       inp.addEventListener('change', (e) => {
         const idx = parseInt(e.target.dataset.setIdx);
         variantSets[idx].name = e.target.value.trim().replace(/[^A-Za-z0-9_]/g, '_').toUpperCase();
         e.target.value = variantSets[idx].name;
-        saveToStorage();
-        refreshVariantSelect();
-        renderCode();
+        saveToStorage(); refreshVariantSelect(); renderCode();
       });
     });
     document.querySelectorAll('.remove-set-btn').forEach(btn => {
       btn.addEventListener('click', (e) => {
         const idx = parseInt(e.currentTarget.dataset.setIdx);
-        if (variantSets.length <= 1) {
-          showToast('At least one variant set required', true);
-          return;
-        }
+        if (variantSets.length <= 1) { showToast('At least one variant set required', true); return; }
         variantSets.splice(idx, 1);
-        saveToStorage();
-        renderVariantSets();
-        refreshVariantSelect();
-        renderCode();
+        saveToStorage(); renderVariantSets(); refreshVariantSelect(); renderCode();
       });
     });
     document.querySelectorAll('.variant-label-input').forEach(inp => {
       inp.addEventListener('change', (e) => {
-        const si = parseInt(e.target.dataset.set);
-        const ii = parseInt(e.target.dataset.item);
+        const si = parseInt(e.target.dataset.set), ii = parseInt(e.target.dataset.item);
         variantSets[si].items[ii].label = e.target.value;
-        saveToStorage();
-        renderCode();
+        saveToStorage(); renderCode();
       });
     });
     document.querySelectorAll('.variant-price-input').forEach(inp => {
       inp.addEventListener('change', (e) => {
-        const si = parseInt(e.target.dataset.set);
-        const ii = parseInt(e.target.dataset.item);
+        const si = parseInt(e.target.dataset.set), ii = parseInt(e.target.dataset.item);
         variantSets[si].items[ii].price = parseFloat(e.target.value) || 0;
-        saveToStorage();
-        renderCode();
+        saveToStorage(); renderCode();
       });
     });
     document.querySelectorAll('.remove-variant-btn').forEach(btn => {
       btn.addEventListener('click', (e) => {
-        const si = parseInt(e.currentTarget.dataset.set);
-        const ii = parseInt(e.currentTarget.dataset.item);
-        if (variantSets[si].items.length <= 1) {
-          showToast('At least one option required', true);
-          return;
-        }
+        const si = parseInt(e.currentTarget.dataset.set), ii = parseInt(e.currentTarget.dataset.item);
+        if (variantSets[si].items.length <= 1) { showToast('At least one option required', true); return; }
         variantSets[si].items.splice(ii, 1);
-        saveToStorage();
-        renderVariantSets();
-        renderCode();
+        saveToStorage(); renderVariantSets(); renderCode();
       });
     });
     document.querySelectorAll('.add-variant-item-btn').forEach(btn => {
       btn.addEventListener('click', (e) => {
         const si = parseInt(e.currentTarget.dataset.set);
         variantSets[si].items.push({ label: '', price: 0 });
-        saveToStorage();
-        renderVariantSets();
-        renderCode();
+        saveToStorage(); renderVariantSets(); renderCode();
       });
     });
   }
 
   document.getElementById('addVariantSetBtn').addEventListener('click', () => {
-    const num = variantSets.length + 1;
-    variantSets.push({
-      name: `VARIANT_SET_${num}`,
-      items: [{ label: '', price: 0 }]
-    });
-    saveToStorage();
-    renderVariantSets();
-    refreshVariantSelect();
-    renderCode();
+    variantSets.push({ name: `VARIANT_SET_${variantSets.length + 1}`, items: [{ label: '', price: 0 }] });
+    saveToStorage(); renderVariantSets(); refreshVariantSelect(); renderCode();
   });
 
-  /* ============ CATEGORIES EDITOR ============ */
   function renderCategories() {
     categoryEditor.innerHTML = '';
     categories.forEach((cat, idx) => {
@@ -1029,15 +1419,9 @@
     document.querySelectorAll('.category-chip button').forEach(btn => {
       btn.addEventListener('click', (e) => {
         const idx = parseInt(e.currentTarget.dataset.idx);
-        if (categories.length <= 1) {
-          showToast('At least one category required', true);
-          return;
-        }
+        if (categories.length <= 1) { showToast('At least one category required', true); return; }
         categories.splice(idx, 1);
-        saveToStorage();
-        renderCategories();
-        refreshCategorySelect();
-        renderCode();
+        saveToStorage(); renderCategories(); refreshCategorySelect(); renderCode();
       });
     });
   }
@@ -1046,22 +1430,15 @@
     const input = document.getElementById('newCategoryInput');
     const val = input.value.trim();
     if (!val) return;
-    if (categories.includes(val)) {
-      showToast('Category already exists', true);
-      return;
-    }
+    if (categories.includes(val)) { showToast('Category already exists', true); return; }
     categories.push(val);
     input.value = '';
-    saveToStorage();
-    renderCategories();
-    refreshCategorySelect();
-    renderCode();
+    saveToStorage(); renderCategories(); refreshCategorySelect(); renderCode();
   });
   document.getElementById('newCategoryInput').addEventListener('keypress', (e) => {
     if (e.key === 'Enter') document.getElementById('addCategoryBtn').click();
   });
 
-  /* ============ SELECTS ============ */
   function refreshCategorySelect() {
     const current = prodCat.value;
     prodCat.innerHTML = categories.map(c => `<option value="${escapeAttr(c)}">${escapeHtml(c)}</option>`).join('');
@@ -1074,30 +1451,19 @@
     if (variantSets.some(s => s.name === current)) prodVariantSelect.value = current;
   }
 
-  /* ============ INIT ============ */
-  function generateId() {
-    return 'p' + (products.length + 1);
-  }
+  function generateId() { return 'p' + (products.length + 1); }
 
-  /* ============ TAG SELECTION ============ */
   document.querySelectorAll('.tag-chip').forEach(chip => {
     chip.addEventListener('click', () => {
       document.querySelectorAll('.tag-chip').forEach(c => c.classList.remove('active'));
       chip.classList.add('active');
       const tag = chip.dataset.tag;
-      if (tag === 'Custom') {
-        customTagGroup.style.display = 'block';
-        selectedTag = '';
-        customTag.focus();
-      } else {
-        customTagGroup.style.display = 'none';
-        selectedTag = tag;
-      }
+      if (tag === 'Custom') { customTagGroup.style.display = 'block'; selectedTag = ''; customTag.focus(); }
+      else { customTagGroup.style.display = 'none'; selectedTag = tag; }
     });
   });
   customTag.addEventListener('input', () => { selectedTag = customTag.value.trim(); });
 
-  /* ============ IMAGE UPLOAD ============ */
   imageUploadArea.addEventListener('click', () => imageFileInput.click());
   imageFileInput.addEventListener('change', (e) => {
     const file = e.target.files[0];
@@ -1112,7 +1478,6 @@
     reader.readAsDataURL(file);
   });
 
-  /* ============ ADD / UPDATE ============ */
   addProductBtn.addEventListener('click', () => {
     const id = prodId.value.trim();
     const name = prodName.value.trim();
@@ -1129,8 +1494,7 @@
     const product = {
       id, name, tag: tag || 'New', cat, wt,
       img: img || `images/${name.toLowerCase().replace(/\s+/g,'-')}.png`,
-      variants,
-      desc: desc || 'Product description.',
+      variants, desc: desc || 'Product description.',
       imageData: uploadedImageData
     };
 
@@ -1142,9 +1506,7 @@
       showToast('Product added & saved!');
     }
 
-    saveToStorage();
-    resetForm();
-    renderAll();
+    saveToStorage(); resetForm(); renderAll();
   });
 
   function resetForm() {
@@ -1168,7 +1530,6 @@
     editingIndex = -1;
     addBtnText.textContent = 'Add Product';
     addProductBtn.querySelector('i').className = 'fas fa-plus';
-    // Reset selects to first option
     if (categories.length) prodCat.selectedIndex = categories.length > 1 ? 1 : 0;
     if (variantSets.length) prodVariantSelect.selectedIndex = 0;
   }
@@ -1183,21 +1544,15 @@
     prodDesc.value = p.desc;
     prodImgPath.value = p.img;
 
-    // Category
     if (categories.includes(p.cat)) prodCat.value = p.cat;
     else {
       categories.push(p.cat);
-      saveToStorage();
-      renderCategories();
-      refreshCategorySelect();
-      prodCat.value = p.cat;
+      saveToStorage(); renderCategories(); refreshCategorySelect(); prodCat.value = p.cat;
     }
 
-    // Variant set
     if (variantSets.some(s => s.name === p.variants)) prodVariantSelect.value = p.variants;
     else prodVariantSelect.selectedIndex = 0;
 
-    // Tag
     document.querySelectorAll('.tag-chip').forEach(c => {
       c.classList.remove('active');
       if (c.dataset.tag === p.tag) { c.classList.add('active'); selectedTag = p.tag; }
@@ -1223,22 +1578,16 @@
     products.splice(index, 1);
     if (editingIndex === index) resetForm();
     else if (editingIndex > index) editingIndex--;
-    saveToStorage();
-    renderAll();
+    saveToStorage(); renderAll();
     showToast('Product deleted & saved');
   }
 
-  /* ============ CODE GENERATION ============ */
   function buildVariantSetJs(set) {
-    const items = set.items.map(item => {
-      return `  {label:'${item.label}', price:${item.price}}`;
-    }).join(',\n');
+    const items = set.items.map(item => `  {label:'${item.label}', price:${item.price}}`).join(',\n');
     return `const ${set.name}=[\n${items}\n];`;
   }
 
-  function buildCategoriesJs() {
-    return `const CATEGORIES=${JSON.stringify(categories)};`;
-  }
+  function buildCategoriesJs() { return `const CATEGORIES=${JSON.stringify(categories)};`; }
 
   function buildProductLine(p) {
     const catStr = `'${p.cat}'`;
@@ -1277,21 +1626,13 @@ export default PRODUCTS;
 
   function getRawJson() {
     const data = {
-      _meta: {
-        generatedAt: new Date().toISOString(),
-        generator: 'Product Code Generator'
-      },
+      _meta: { generatedAt: new Date().toISOString(), generator: 'Product Code Generator' },
       variantSets: variantSets,
       categories: categories,
       products: products.map(p => {
-        const obj = {
-          id: p.id, name: p.name, tag: p.tag, cat: p.cat,
-          wt: p.wt, img: p.img
-        };
+        const obj = { id: p.id, name: p.name, tag: p.tag, cat: p.cat, wt: p.wt, img: p.img };
         if (isVariantRef(p.variants)) obj._variantsRef = p.variants;
-        else {
-          try { obj.variants = JSON.parse(p.variants); } catch(e) { obj.variants = p.variants; }
-        }
+        else { try { obj.variants = JSON.parse(p.variants); } catch(e) { obj.variants = p.variants; } }
         obj.desc = p.desc;
         return obj;
       })
@@ -1299,9 +1640,7 @@ export default PRODUCTS;
     return JSON.stringify(data, null, 2);
   }
 
-  function isVariantRef(v) {
-    return /^[A-Z_][A-Z0-9_]*$/.test(v);
-  }
+  function isVariantRef(v) { return /^[A-Z_][A-Z0-9_]*$/.test(v); }
 
   function renderAll() {
     renderProductsList();
@@ -1396,34 +1735,25 @@ export default PRODUCTS;
   function updateStats() {
     document.getElementById('statCount').textContent = products.length;
     document.getElementById('statTags').textContent = new Set(products.map(p => p.tag)).size;
-    const usedCats = new Set(products.map(p => p.cat).filter(Boolean));
-    document.getElementById('statCats').textContent = usedCats.size;
+    document.getElementById('statCats').textContent = new Set(products.map(p => p.cat).filter(Boolean)).size;
     document.getElementById('statVariants').textContent = variantSets.length;
   }
 
-  /* ============ COPY ============ */
   function copyCode() {
     const raw = activeTab === 'js' ? getFullJsFile() : getRawJson();
     navigator.clipboard.writeText(raw).then(() => showToast('Code copied!'))
       .catch(() => {
         const ta = document.createElement('textarea');
-        ta.value = raw;
-        document.body.appendChild(ta); ta.select();
-        document.execCommand('copy');
-        document.body.removeChild(ta);
+        ta.value = raw; document.body.appendChild(ta); ta.select();
+        document.execCommand('copy'); document.body.removeChild(ta);
         showToast('Code copied!');
       });
   }
   document.getElementById('copyCodeBtn2').addEventListener('click', copyCode);
 
-  /* ============ EXPORT DROPDOWN ============ */
   const exportBtn = document.getElementById('exportBtn');
   const exportMenu = document.getElementById('exportMenu');
-
-  exportBtn.addEventListener('click', (e) => {
-    e.stopPropagation();
-    exportMenu.classList.toggle('show');
-  });
+  exportBtn.addEventListener('click', (e) => { e.stopPropagation(); exportMenu.classList.toggle('show'); });
   document.addEventListener('click', () => exportMenu.classList.remove('show'));
   exportMenu.addEventListener('click', (e) => e.stopPropagation());
 
@@ -1431,23 +1761,11 @@ export default PRODUCTS;
     item.addEventListener('click', () => {
       const action = item.dataset.export;
       exportMenu.classList.remove('show');
-
-      if (products.length === 0) {
-        showToast('No products to export', true);
-        return;
-      }
-
-      if (action === 'js') {
-        downloadFile(getFullJsFile(), 'products.js', 'text/javascript');
-        showToast('products.js downloaded!');
-      } else if (action === 'json') {
-        downloadFile(getRawJson(), 'products.json', 'application/json');
-        showToast('products.json downloaded!');
-      } else if (action === 'copy-js') {
-        navigator.clipboard.writeText(getFullJsFile()).then(() => showToast('JS code copied!'));
-      } else if (action === 'copy-json') {
-        navigator.clipboard.writeText(getRawJson()).then(() => showToast('JSON copied!'));
-      }
+      if (products.length === 0) { showToast('No products to export', true); return; }
+      if (action === 'js') { downloadFile(getFullJsFile(), 'products.js', 'text/javascript'); showToast('products.js downloaded!'); }
+      else if (action === 'json') { downloadFile(getRawJson(), 'products.json', 'application/json'); showToast('products.json downloaded!'); }
+      else if (action === 'copy-js') { navigator.clipboard.writeText(getFullJsFile()).then(() => showToast('JS code copied!')); }
+      else if (action === 'copy-json') { navigator.clipboard.writeText(getRawJson()).then(() => showToast('JSON copied!')); }
     });
   });
 
@@ -1461,7 +1779,6 @@ export default PRODUCTS;
     URL.revokeObjectURL(url);
   }
 
-  /* ============ IMPORT ============ */
   const importModal = document.getElementById('importModal');
   const importBtn = document.getElementById('importBtn');
   const importFileInput = document.getElementById('importFileInput');
@@ -1481,38 +1798,21 @@ export default PRODUCTS;
     importModalMsg.textContent = 'Choose a .js or .json file to import products.';
     importModal.classList.add('show');
   });
-
-  importCancelBtn.addEventListener('click', () => {
-    importModal.classList.remove('show');
-    pendingImportData = null;
-  });
-
-  importModal.addEventListener('click', (e) => {
-    if (e.target === importModal) {
-      importModal.classList.remove('show');
-      pendingImportData = null;
-    }
-  });
+  importCancelBtn.addEventListener('click', () => { importModal.classList.remove('show'); pendingImportData = null; });
+  importModal.addEventListener('click', (e) => { if (e.target === importModal) { importModal.classList.remove('show'); pendingImportData = null; } });
 
   importFileInput.addEventListener('change', (e) => {
     const file = e.target.files[0];
     if (!file) return;
-
     const reader = new FileReader();
     reader.onload = (ev) => {
       try {
         const content = ev.target.result;
         const ext = file.name.split('.').pop().toLowerCase();
         let parsed = { products: [], variantSets: null, categories: null };
-
-        if (ext === 'json') {
-          parsed = parseJsonImport(content);
-        } else if (ext === 'js') {
-          parsed = parseJsImport(content);
-        } else {
-          showToast('Unsupported file type', true);
-          return;
-        }
+        if (ext === 'json') parsed = parseJsonImport(content);
+        else if (ext === 'js') parsed = parseJsImport(content);
+        else { showToast('Unsupported file type', true); return; }
 
         if (parsed.products.length === 0) {
           showToast('No valid products found', true);
@@ -1521,12 +1821,7 @@ export default PRODUCTS;
           return;
         }
 
-        pendingImportData = {
-          fileName: file.name,
-          fileType: ext.toUpperCase(),
-          ...parsed
-        };
-
+        pendingImportData = { fileName: file.name, fileType: ext.toUpperCase(), ...parsed };
         importFileName.textContent = file.name;
         importFileType.textContent = ext.toUpperCase();
         importProductCount.textContent = parsed.products.length;
@@ -1545,67 +1840,45 @@ export default PRODUCTS;
   importConfirmBtn.addEventListener('click', () => {
     if (!pendingImportData) return;
     const mode = document.getElementById('importMode').value;
+    const importedCount = pendingImportData.products.length;
 
-    if (pendingImportData.variantSets && pendingImportData.variantSets.length) {
-      variantSets = pendingImportData.variantSets;
-    }
-    if (pendingImportData.categories && pendingImportData.categories.length) {
-      categories = pendingImportData.categories;
-    }
+    if (pendingImportData.variantSets && pendingImportData.variantSets.length) variantSets = pendingImportData.variantSets;
+    if (pendingImportData.categories && pendingImportData.categories.length) categories = pendingImportData.categories;
 
-    if (mode === 'replace') {
-      products = pendingImportData.products;
-    } else {
+    if (mode === 'replace') products = pendingImportData.products;
+    else {
       pendingImportData.products.forEach(p => {
         const idx = products.findIndex(ep => ep.id === p.id);
-        if (idx >= 0) products[idx] = p;
-        else products.push(p);
+        if (idx >= 0) products[idx] = p; else products.push(p);
       });
     }
 
-    saveToStorage();
-    resetForm();
-    renderVariantSets();
-    renderCategories();
-    refreshCategorySelect();
-    refreshVariantSelect();
+    saveToStorage(); resetForm();
+    renderVariantSets(); renderCategories();
+    refreshCategorySelect(); refreshVariantSelect();
     renderAll();
     importModal.classList.remove('show');
     pendingImportData = null;
-    showToast(`Imported ${pendingImportData?.products?.length || 0} product(s)!`);
+    showToast(`Imported ${importedCount} product(s)!`);
   });
 
   function parseJsonImport(content) {
     const data = JSON.parse(content);
-    let arr = [];
-    let vSets = null;
-    let cats = null;
-
-    if (Array.isArray(data)) {
-      arr = data;
-    } else {
+    let arr = [], vSets = null, cats = null;
+    if (Array.isArray(data)) arr = data;
+    else {
       arr = data.products || data.PRODUCTS || [];
       if (data.variantSets) vSets = data.variantSets;
       if (data.categories) cats = data.categories;
     }
-
-    return {
-      products: arr.map(normalizeProduct).filter(Boolean),
-      variantSets: vSets,
-      categories: cats
-    };
+    return { products: arr.map(normalizeProduct).filter(Boolean), variantSets: vSets, categories: cats };
   }
 
   function parseJsImport(content) {
-    let cleaned = content
-      .replace(/\/\*[\s\S]*?\*\//g, '')
-      .replace(/\/\/.*$/gm, '');
-
-    // Extract variant sets
+    let cleaned = content.replace(/\/\*[\s\S]*?\*\//g, '').replace(/\/\/.*$/gm, '');
     const vSets = [];
     const vSetRegex = /const\s+([A-Z_][A-Z0-9_]*)\s*=\s*\[([\s\S]*?)\];/g;
     let vm;
-    const usedSetNames = new Set();
     while ((vm = vSetRegex.exec(cleaned)) !== null) {
       const name = vm[1];
       if (name === 'PRODUCTS' || name === 'CATEGORIES') continue;
@@ -1613,23 +1886,14 @@ export default PRODUCTS;
       const items = [];
       const itemRegex = /\{\s*label\s*:\s*'([^']*)'\s*,\s*price\s*:\s*(\d+\.?\d*)\s*\}/g;
       let im;
-      while ((im = itemRegex.exec(body)) !== null) {
-        items.push({ label: im[1], price: parseFloat(im[2]) });
-      }
-      if (items.length > 0) {
-        vSets.push({ name, items });
-        usedSetNames.add(name);
-      }
+      while ((im = itemRegex.exec(body)) !== null) items.push({ label: im[1], price: parseFloat(im[2]) });
+      if (items.length > 0) vSets.push({ name, items });
     }
 
-    // Extract categories
     let cats = null;
     const catMatch = cleaned.match(/const\s+CATEGORIES\s*=\s*(\[[^\]]*\])/);
-    if (catMatch) {
-      try { cats = JSON.parse(catMatch[1]); } catch(e) {}
-    }
+    if (catMatch) { try { cats = JSON.parse(catMatch[1]); } catch(e) {} }
 
-    // Extract products
     const products = [];
     const prodBlockMatch = cleaned.match(/const\s+PRODUCTS\s*=\s*\[([\s\S]*)\]/);
     if (prodBlockMatch) {
@@ -1641,7 +1905,6 @@ export default PRODUCTS;
         if (p) products.push(p);
       }
     }
-
     return { products, variantSets: vSets.length ? vSets : null, categories: cats };
   }
 
@@ -1663,10 +1926,8 @@ export default PRODUCTS;
   function normalizeProduct(raw) {
     if (!raw.id || !raw.name) return null;
     return {
-      id: String(raw.id),
-      name: String(raw.name),
-      tag: raw.tag || 'New',
-      cat: raw.cat || 'Perfume',
+      id: String(raw.id), name: String(raw.name),
+      tag: raw.tag || 'New', cat: raw.cat || 'Perfume',
       wt: typeof raw.wt === 'number' ? raw.wt : (parseFloat(raw.wt) || 0),
       img: raw.img || `images/${String(raw.name).toLowerCase().replace(/\s+/g,'-')}.png`,
       variants: formatVariants(raw.variants || raw._variantsRef || 'SIZE_VARIANTS'),
@@ -1681,21 +1942,18 @@ export default PRODUCTS;
     return 'SIZE_VARIANTS';
   }
 
-  /* ============ CLEAR ALL ============ */
   document.getElementById('clearAllBtn').addEventListener('click', () => {
     if (products.length === 0) return;
     if (confirm('Delete all products? This will also clear saved data.')) {
       products = [];
       localStorage.removeItem(STORAGE_KEY);
-      resetForm();
-      renderAll();
+      resetForm(); renderAll();
       updateStorageBadge(true);
       storageLabel.textContent = 'Auto-saved (0)';
       showToast('All products cleared');
     }
   });
 
-  /* ============ UTILS ============ */
   function showToast(msg, isError) {
     const toast = document.getElementById('toast');
     document.getElementById('toastMsg').textContent = msg;
@@ -1712,23 +1970,24 @@ export default PRODUCTS;
   }
 
   function escapeAttr(str) {
-    return String(str).replace(/"/g, '&quot;').replace(/</g, '&lt;');
+    return String(str).replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
   }
 
-  /* ============ BOOT ============ */
-  const loaded = loadFromStorage();
-  renderVariantSets();
-  renderCategories();
-  refreshCategorySelect();
-  refreshVariantSelect();
-
-  if (loaded && products.length > 0) {
-    showToast(`Loaded ${products.length} product(s) from storage`);
+  // Load saved data (only if authenticated)
+  if (existingSession) {
+    const loaded = loadFromStorage();
+    renderVariantSets();
+    renderCategories();
+    refreshCategorySelect();
+    refreshVariantSelect();
+    if (loaded && products.length > 0) {
+      setTimeout(() => showToast(`Loaded ${products.length} product(s) from storage`), 500);
+    }
+    prodId.value = generateId();
+    if (categories.length > 1) prodCat.selectedIndex = 1;
+    updateStorageBadge(true);
+    renderAll();
   }
-  prodId.value = generateId();
-  if (categories.length > 1) prodCat.selectedIndex = 1;
-  updateStorageBadge(true);
-  renderAll();
 </script>
 </body>
 </html>
