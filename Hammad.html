@@ -1,0 +1,1734 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Product Code Generator</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/inter@5.0.8/index.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: 'Inter', sans-serif;
+    background: #0f0f14;
+    color: #e4e4e7;
+    min-height: 100vh;
+  }
+  .app-header {
+    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+    padding: 20px 32px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+  .app-header .logo {
+    width: 42px; height: 42px;
+    background: linear-gradient(135deg, #f59e0b, #d97706);
+    border-radius: 12px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 20px; color: #fff;
+  }
+  .app-header h1 {
+    font-size: 22px; font-weight: 700;
+    background: linear-gradient(90deg, #fbbf24, #f59e0b);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  }
+  .app-header p { font-size: 13px; color: #9ca3af; margin-top: 2px; }
+
+  .storage-badge {
+    margin-left: auto;
+    display: flex; align-items: center; gap: 8px;
+    padding: 6px 12px; border-radius: 20px;
+    background: rgba(34,197,94,0.12);
+    border: 1px solid rgba(34,197,94,0.25);
+    font-size: 12px; color: #22c55e; font-weight: 500;
+  }
+  .storage-badge i { font-size: 11px; }
+  .storage-badge .dot {
+    width: 6px; height: 6px; border-radius: 50%;
+    background: #22c55e;
+    box-shadow: 0 0 8px #22c55e;
+    animation: pulse 2s infinite;
+  }
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.4; }
+  }
+
+  .main-layout {
+    display: grid;
+    grid-template-columns: 440px 1fr;
+    min-height: calc(100vh - 82px);
+  }
+
+  .form-panel {
+    background: #16161e;
+    border-right: 1px solid rgba(255,255,255,0.06);
+    overflow-y: auto;
+    max-height: calc(100vh - 82px);
+  }
+  .form-section {
+    padding: 22px 24px;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+  }
+  .form-section h3 {
+    font-size: 13px; font-weight: 600; text-transform: uppercase;
+    letter-spacing: 1px; color: #f59e0b; margin-bottom: 16px;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .form-section h3 i { font-size: 14px; }
+
+  .collapsible-header {
+    display: flex; align-items: center; justify-content: space-between;
+    cursor: pointer; user-select: none;
+  }
+  .collapsible-header .toggle-icon {
+    transition: transform 0.2s;
+    color: #6b7280;
+  }
+  .collapsible-header.open .toggle-icon {
+    transform: rotate(180deg);
+  }
+  .collapsible-body {
+    max-height: 0; overflow: hidden;
+    transition: max-height 0.3s ease;
+  }
+  .collapsible-body.open {
+    max-height: 2000px;
+  }
+
+  .field-group { margin-bottom: 14px; }
+  .field-group label {
+    display: block; font-size: 12px; font-weight: 500;
+    color: #9ca3af; margin-bottom: 6px; text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+  .field-group input, .field-group select, .field-group textarea {
+    width: 100%; padding: 10px 14px;
+    background: #1e1e2a; border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 10px; color: #e4e4e7; font-size: 14px;
+    font-family: 'Inter', sans-serif; transition: all 0.2s;
+  }
+  .field-group input:focus, .field-group select:focus, .field-group textarea:focus {
+    outline: none; border-color: #f59e0b;
+    box-shadow: 0 0 0 3px rgba(245,158,11,0.15);
+  }
+  .field-group textarea { resize: vertical; min-height: 70px; }
+  .field-group select { cursor: pointer; }
+  .field-group select option { background: #1e1e2a; }
+
+  .field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .field-row-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; }
+
+  .image-upload-area {
+    border: 2px dashed rgba(255,255,255,0.1);
+    border-radius: 12px; padding: 22px;
+    text-align: center; cursor: pointer;
+    transition: all 0.3s; position: relative;
+    overflow: hidden;
+  }
+  .image-upload-area:hover {
+    border-color: #f59e0b;
+    background: rgba(245,158,11,0.04);
+  }
+  .image-upload-area.has-image {
+    padding: 0; border-style: solid; border-color: rgba(245,158,11,0.3);
+  }
+  .image-upload-area i.upload-icon {
+    font-size: 30px; color: #4b5563; margin-bottom: 6px;
+  }
+  .image-upload-area p { font-size: 13px; color: #6b7280; }
+  .image-upload-area .sub { font-size: 11px; color: #4b5563; margin-top: 4px; }
+  .image-preview {
+    width: 100%; height: 160px; object-fit: cover;
+    border-radius: 10px; display: block;
+  }
+  .image-path-input { margin-top: 10px; }
+
+  .tag-chips { display: flex; flex-wrap: wrap; gap: 8px; }
+  .tag-chip {
+    padding: 6px 14px; border-radius: 20px;
+    font-size: 12px; font-weight: 500; cursor: pointer;
+    border: 1px solid rgba(255,255,255,0.1);
+    background: #1e1e2a; color: #9ca3af;
+    transition: all 0.2s;
+  }
+  .tag-chip:hover { border-color: #f59e0b; color: #f59e0b; }
+  .tag-chip.active {
+    background: linear-gradient(135deg, #f59e0b, #d97706);
+    color: #fff; border-color: transparent;
+  }
+
+  .btn {
+    padding: 11px 22px; border-radius: 10px; font-size: 14px;
+    font-weight: 600; cursor: pointer; border: none;
+    font-family: 'Inter', sans-serif; transition: all 0.2s;
+    display: inline-flex; align-items: center; gap: 8px;
+  }
+  .btn-primary {
+    background: linear-gradient(135deg, #f59e0b, #d97706);
+    color: #fff; width: 100%; justify-content: center;
+  }
+  .btn-primary:hover { transform: translateY(-1px); box-shadow: 0 8px 24px rgba(245,158,11,0.3); }
+  .btn-secondary {
+    background: rgba(255,255,255,0.06); color: #e4e4e7;
+    border: 1px solid rgba(255,255,255,0.08);
+  }
+  .btn-secondary:hover { background: rgba(255,255,255,0.1); }
+  .btn-success {
+    background: rgba(34,197,94,0.15); color: #22c55e;
+    border: 1px solid rgba(34,197,94,0.2);
+  }
+  .btn-success:hover { background: rgba(34,197,94,0.25); }
+  .btn-info {
+    background: rgba(59,130,246,0.15); color: #3b82f6;
+    border: 1px solid rgba(59,130,246,0.2);
+  }
+  .btn-info:hover { background: rgba(59,130,246,0.25); }
+  .btn-danger {
+    background: rgba(239,68,68,0.15); color: #ef4444;
+    border: 1px solid rgba(239,68,68,0.2);
+  }
+  .btn-danger:hover { background: rgba(239,68,68,0.25); }
+  .btn-sm { padding: 8px 14px; font-size: 12px; border-radius: 8px; }
+  .btn-xs { padding: 5px 10px; font-size: 11px; border-radius: 6px; }
+
+  .output-panel {
+    padding: 24px; overflow-y: auto; max-height: calc(100vh - 82px);
+  }
+
+  .output-toolbar {
+    display: flex; align-items: center; justify-content: space-between;
+    margin-bottom: 20px; flex-wrap: wrap; gap: 12px;
+  }
+  .output-toolbar h2 { font-size: 18px; font-weight: 700; }
+  .toolbar-actions { display: flex; gap: 8px; flex-wrap: wrap; }
+
+  .dropdown { position: relative; }
+  .dropdown-menu {
+    position: absolute;
+    top: calc(100% + 6px);
+    right: 0;
+    background: #1e1e2a;
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 10px;
+    min-width: 220px;
+    padding: 6px;
+    box-shadow: 0 12px 32px rgba(0,0,0,0.5);
+    z-index: 100;
+    display: none;
+    animation: fadeDown 0.15s ease-out;
+  }
+  .dropdown-menu.show { display: block; }
+  @keyframes fadeDown {
+    from { opacity: 0; transform: translateY(-6px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .dropdown-item {
+    display: flex; align-items: center; gap: 10px;
+    padding: 10px 12px; border-radius: 8px;
+    font-size: 13px; color: #e4e4e7;
+    cursor: pointer; transition: all 0.15s;
+    border: none; background: transparent;
+    width: 100%; text-align: left;
+    font-family: 'Inter', sans-serif;
+  }
+  .dropdown-item:hover { background: rgba(245,158,11,0.1); color: #f59e0b; }
+  .dropdown-item i { width: 16px; text-align: center; font-size: 13px; }
+  .dropdown-item .ext {
+    margin-left: auto;
+    font-size: 10px; padding: 2px 6px;
+    border-radius: 4px; background: rgba(255,255,255,0.06);
+    color: #6b7280; font-weight: 600;
+  }
+  .dropdown-divider {
+    height: 1px; background: rgba(255,255,255,0.06);
+    margin: 4px 0;
+  }
+
+  .products-list {
+    display: flex; flex-direction: column; gap: 12px;
+    margin-bottom: 24px;
+  }
+  .product-card {
+    background: #16161e;
+    border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 14px; padding: 16px;
+    display: flex; align-items: center; gap: 16px;
+    transition: all 0.2s; cursor: pointer;
+  }
+  .product-card:hover {
+    border-color: rgba(245,158,11,0.3);
+    background: #1a1a24;
+  }
+  .product-card.active {
+    border-color: #f59e0b;
+    box-shadow: 0 0 0 2px rgba(245,158,11,0.15);
+  }
+  .product-card img {
+    width: 56px; height: 56px; border-radius: 10px;
+    object-fit: cover; background: #1e1e2a;
+  }
+  .product-card .info { flex: 1; min-width: 0; }
+  .product-card .info h4 { font-size: 15px; font-weight: 600; margin-bottom: 4px; }
+  .product-card .info .meta {
+    font-size: 12px; color: #6b7280;
+    display: flex; gap: 10px; align-items: center; flex-wrap: wrap;
+  }
+  .product-card .info .meta span {
+    display: flex; align-items: center; gap: 4px;
+  }
+  .product-card .badges { display: flex; gap: 6px; flex-shrink: 0; }
+  .tag-badge {
+    padding: 3px 10px; border-radius: 12px;
+    font-size: 11px; font-weight: 600;
+    background: rgba(245,158,11,0.15); color: #f59e0b;
+  }
+  .cat-badge {
+    padding: 3px 10px; border-radius: 12px;
+    font-size: 11px; font-weight: 600;
+    background: rgba(139,92,246,0.15); color: #a78bfa;
+  }
+  .product-card .card-actions { display: flex; gap: 6px; }
+  .card-actions button {
+    width: 32px; height: 32px; border-radius: 8px;
+    border: none; cursor: pointer; font-size: 13px;
+    display: flex; align-items: center; justify-content: center;
+    transition: all 0.2s;
+  }
+  .card-actions .edit-btn { background: rgba(59,130,246,0.15); color: #3b82f6; }
+  .card-actions .edit-btn:hover { background: rgba(59,130,246,0.3); }
+  .card-actions .del-btn { background: rgba(239,68,68,0.15); color: #ef4444; }
+  .card-actions .del-btn:hover { background: rgba(239,68,68,0.3); }
+
+  .code-output {
+    background: #0d0d12;
+    border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 14px; overflow: hidden;
+    margin-bottom: 20px;
+  }
+  .code-header {
+    background: rgba(255,255,255,0.03);
+    padding: 12px 16px;
+    display: flex; align-items: center; justify-content: space-between;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+  }
+  .code-header span {
+    font-size: 12px; font-weight: 600; color: #6b7280;
+    text-transform: uppercase; letter-spacing: 1px;
+    display: flex; align-items: center; gap: 6px;
+  }
+  .code-body {
+    padding: 20px; overflow-x: auto;
+    max-height: 500px; overflow-y: auto;
+  }
+  .code-body pre {
+    font-family: 'Fira Code', 'Cascadia Code', 'JetBrains Mono', monospace;
+    font-size: 13px; line-height: 1.7;
+    white-space: pre; color: #d4d4d8;
+  }
+  .code-body .kw { color: #c084fc; }
+  .code-body .str { color: #86efac; }
+  .code-body .num { color: #fbbf24; }
+  .code-body .prop { color: #93c5fd; }
+  .code-body .punct { color: #6b7280; }
+  .code-body .comment { color: #4b5563; font-style: italic; }
+
+  .empty-state {
+    text-align: center; padding: 60px 20px;
+    color: #4b5563;
+  }
+  .empty-state i { font-size: 48px; margin-bottom: 16px; color: #2d2d3a; }
+  .empty-state h3 { font-size: 18px; color: #6b7280; margin-bottom: 8px; }
+  .empty-state p { font-size: 13px; }
+
+  .toast {
+    position: fixed; bottom: 24px; right: 24px;
+    background: #22c55e; color: #fff;
+    padding: 12px 20px; border-radius: 10px;
+    font-size: 14px; font-weight: 500;
+    display: flex; align-items: center; gap: 8px;
+    transform: translateY(100px); opacity: 0;
+    transition: all 0.3s; z-index: 999;
+  }
+  .toast.show { transform: translateY(0); opacity: 1; }
+
+  .variant-options { display: flex; flex-wrap: wrap; gap: 8px; }
+  .variant-opt {
+    padding: 5px 12px; border-radius: 8px; font-size: 12px;
+    background: #1e1e2a; border: 1px solid rgba(255,255,255,0.08);
+    color: #9ca3af; cursor: pointer; transition: all 0.2s;
+  }
+  .variant-opt:hover { border-color: #f59e0b; }
+  .variant-opt.selected {
+    background: rgba(245,158,11,0.15); border-color: #f59e0b; color: #f59e0b;
+  }
+
+  .custom-variant-row { display: flex; gap: 8px; margin-top: 8px; }
+  .custom-variant-row input {
+    flex: 1; padding: 8px 12px; background: #1e1e2a;
+    border: 1px solid rgba(255,255,255,0.08); border-radius: 8px;
+    color: #e4e4e7; font-size: 13px; font-family: 'Inter', sans-serif;
+  }
+  .custom-variant-row input:focus { outline: none; border-color: #f59e0b; }
+
+  .stats-bar { display: flex; gap: 12px; margin-bottom: 20px; }
+  .stat-item {
+    background: #16161e; border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 12px; padding: 14px 18px; flex: 1;
+  }
+  .stat-item .val { font-size: 22px; font-weight: 700; color: #f59e0b; }
+  .stat-item .lbl { font-size: 11px; color: #6b7280; margin-top: 2px; }
+
+  .output-tabs {
+    display: flex; gap: 4px; margin-bottom: 16px;
+    background: #16161e; border-radius: 10px; padding: 4px;
+    border: 1px solid rgba(255,255,255,0.06);
+  }
+  .output-tab {
+    flex: 1; padding: 10px 16px; border-radius: 8px;
+    font-size: 13px; font-weight: 600; cursor: pointer;
+    border: none; background: transparent; color: #6b7280;
+    font-family: 'Inter', sans-serif; transition: all 0.2s;
+    display: flex; align-items: center; justify-content: center; gap: 6px;
+  }
+  .output-tab:hover { color: #9ca3af; }
+  .output-tab.active {
+    background: rgba(245,158,11,0.15); color: #f59e0b;
+  }
+
+  /* Variant set editor */
+  .variant-set-card {
+    background: #1e1e2a;
+    border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 10px;
+    padding: 14px;
+    margin-bottom: 10px;
+  }
+  .variant-set-header {
+    display: flex; align-items: center; justify-content: space-between;
+    margin-bottom: 10px;
+  }
+  .variant-set-header input {
+    background: transparent;
+    border: none;
+    color: #f59e0b;
+    font-weight: 700;
+    font-size: 13px;
+    font-family: 'Fira Code', monospace;
+    padding: 4px 8px;
+    border-radius: 6px;
+    width: 180px;
+  }
+  .variant-set-header input:hover { background: rgba(255,255,255,0.04); }
+  .variant-set-header input:focus {
+    outline: none;
+    background: rgba(245,158,11,0.08);
+    color: #fbbf24;
+  }
+  .variant-row {
+    display: grid;
+    grid-template-columns: 1fr 100px 32px;
+    gap: 8px;
+    margin-bottom: 6px;
+    align-items: center;
+  }
+  .variant-row input {
+    padding: 7px 10px;
+    background: #0f0f14;
+    border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 6px;
+    color: #e4e4e7;
+    font-size: 12px;
+    font-family: 'Inter', sans-serif;
+  }
+  .variant-row input:focus {
+    outline: none;
+    border-color: #f59e0b;
+  }
+  .variant-row .remove-variant-btn {
+    width: 28px; height: 28px;
+    border-radius: 6px;
+    border: none;
+    background: rgba(239,68,68,0.1);
+    color: #ef4444;
+    cursor: pointer;
+    font-size: 11px;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .variant-row .remove-variant-btn:hover { background: rgba(239,68,68,0.25); }
+  .variant-set-actions {
+    display: flex; gap: 6px; margin-top: 8px;
+  }
+  .remove-set-btn {
+    margin-left: auto;
+    padding: 5px 10px;
+    border-radius: 6px;
+    border: none;
+    background: rgba(239,68,68,0.1);
+    color: #ef4444;
+    cursor: pointer;
+    font-size: 11px;
+    font-family: 'Inter', sans-serif;
+  }
+  .remove-set-btn:hover { background: rgba(239,68,68,0.25); }
+
+  /* Category chips editor */
+  .category-editor {
+    display: flex; flex-wrap: wrap; gap: 8px; align-items: center;
+  }
+  .category-chip {
+    display: inline-flex; align-items: center; gap: 6px;
+    padding: 6px 10px 6px 12px;
+    background: rgba(139,92,246,0.12);
+    border: 1px solid rgba(139,92,246,0.25);
+    color: #a78bfa;
+    border-radius: 20px;
+    font-size: 12px; font-weight: 500;
+  }
+  .category-chip button {
+    width: 16px; height: 16px;
+    border-radius: 50%;
+    border: none;
+    background: rgba(239,68,68,0.2);
+    color: #ef4444;
+    cursor: pointer;
+    font-size: 9px;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .category-chip button:hover { background: rgba(239,68,68,0.4); }
+  .add-category-row {
+    display: flex; gap: 6px; margin-top: 10px;
+  }
+  .add-category-row input {
+    flex: 1;
+    padding: 7px 10px;
+    background: #1e1e2a;
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 8px;
+    color: #e4e4e7;
+    font-size: 12px;
+    font-family: 'Inter', sans-serif;
+  }
+  .add-category-row input:focus { outline: none; border-color: #a78bfa; }
+
+  /* Modal */
+  .modal-overlay {
+    position: fixed; inset: 0;
+    background: rgba(0,0,0,0.7);
+    backdrop-filter: blur(4px);
+    display: none;
+    align-items: center; justify-content: center;
+    z-index: 1000;
+  }
+  .modal-overlay.show { display: flex; }
+  .modal {
+    background: #16161e;
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 16px;
+    width: 90%; max-width: 480px;
+    padding: 28px;
+  }
+  .modal h3 {
+    font-size: 18px; margin-bottom: 8px;
+    display: flex; align-items: center; gap: 10px;
+  }
+  .modal h3 i { color: #f59e0b; }
+  .modal p { font-size: 14px; color: #9ca3af; margin-bottom: 16px; line-height: 1.6; }
+  .modal-actions {
+    display: flex; gap: 10px; justify-content: flex-end;
+    margin-top: 20px;
+  }
+  .modal-actions .btn { width: auto; }
+
+  .import-summary {
+    background: #1e1e2a;
+    border-radius: 10px; padding: 14px;
+    margin: 12px 0;
+    border-left: 3px solid #f59e0b;
+  }
+  .import-summary .row {
+    display: flex; justify-content: space-between;
+    padding: 4px 0; font-size: 13px;
+  }
+  .import-summary .row span:first-child { color: #9ca3af; }
+  .import-summary .row span:last-child { color: #f59e0b; font-weight: 600; }
+
+  @media (max-width: 900px) {
+    .main-layout { grid-template-columns: 1fr; }
+    .form-panel { max-height: none; }
+    .output-panel { max-height: none; }
+  }
+
+  ::-webkit-scrollbar { width: 6px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb { background: #2d2d3a; border-radius: 3px; }
+  ::-webkit-scrollbar-thumb:hover { background: #3d3d4a; }
+</style>
+</head>
+<body>
+
+<header class="app-header">
+  <div class="logo"><i class="fas fa-code"></i></div>
+  <div>
+    <h1>Product Code Generator</h1>
+    <p>Build product arrays visually — select images, set properties, export code</p>
+  </div>
+  <div class="storage-badge" id="storageBadge" title="Data saved in browser">
+    <span class="dot"></span>
+    <i class="fas fa-database"></i>
+    <span id="storageLabel">Auto-saved</span>
+  </div>
+</header>
+
+<div class="main-layout">
+  <div class="form-panel">
+
+    <!-- CONFIG: Variants & Categories -->
+    <div class="form-section" style="padding-bottom:0;">
+      <div class="collapsible-header" id="configHeader">
+        <h3 style="margin-bottom:0;"><i class="fas fa-sliders-h"></i> Variants & Categories Config</h3>
+        <i class="fas fa-chevron-down toggle-icon"></i>
+      </div>
+    </div>
+    <div class="collapsible-body" id="configBody">
+      <div class="form-section">
+        <label style="font-size:11px;color:#6b7280;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:8px;display:block;">Variant Sets</label>
+        <div id="variantSetsContainer"></div>
+        <button class="btn btn-secondary btn-xs" id="addVariantSetBtn" style="margin-top:6px;">
+          <i class="fas fa-plus"></i> Add Variant Set
+        </button>
+      </div>
+
+      <div class="form-section">
+        <label style="font-size:11px;color:#6b7280;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:8px;display:block;">Categories</label>
+        <div class="category-editor" id="categoryEditor"></div>
+        <div class="add-category-row">
+          <input type="text" id="newCategoryInput" placeholder="New category name...">
+          <button class="btn btn-secondary btn-xs" id="addCategoryBtn"><i class="fas fa-plus"></i></button>
+        </div>
+      </div>
+    </div>
+
+    <!-- PRODUCT DETAILS -->
+    <div class="form-section">
+      <h3><i class="fas fa-box"></i> Product Details</h3>
+      <div class="field-row">
+        <div class="field-group">
+          <label>Product ID</label>
+          <input type="text" id="prodId" placeholder="e.g. p1">
+        </div>
+        <div class="field-group">
+          <label>Weight (kg)</label>
+          <input type="number" id="prodWt" step="0.01" placeholder="e.g. 0.25">
+        </div>
+      </div>
+      <div class="field-group">
+        <label>Product Name</label>
+        <input type="text" id="prodName" placeholder="e.g. Aqua-CK">
+      </div>
+      <div class="field-row">
+        <div class="field-group">
+          <label>Category</label>
+          <select id="prodCat"></select>
+        </div>
+        <div class="field-group">
+          <label>Variant Set</label>
+          <select id="prodVariantSelect"></select>
+        </div>
+      </div>
+      <div class="field-group">
+        <label>Description</label>
+        <textarea id="prodDesc" placeholder="Enter product description..."></textarea>
+      </div>
+    </div>
+
+    <div class="form-section">
+      <h3><i class="fas fa-tag"></i> Tag / Label</h3>
+      <div class="tag-chips" id="tagChips">
+        <div class="tag-chip" data-tag="Gift Set">Gift Set</div>
+        <div class="tag-chip" data-tag="Bestseller">Bestseller</div>
+        <div class="tag-chip" data-tag="Attar">Attar</div>
+        <div class="tag-chip" data-tag="New">New</div>
+        <div class="tag-chip" data-tag="Premium">Premium</div>
+        <div class="tag-chip" data-tag="Limited">Limited</div>
+        <div class="tag-chip" data-tag="Unisex">Unisex</div>
+        <div class="tag-chip" data-tag="Custom">+ Custom</div>
+      </div>
+      <div class="field-group" id="customTagGroup" style="margin-top:12px; display:none;">
+        <input type="text" id="customTag" placeholder="Enter custom tag...">
+      </div>
+    </div>
+
+    <div class="form-section">
+      <h3><i class="fas fa-image"></i> Product Image</h3>
+      <div class="image-upload-area" id="imageUploadArea">
+        <i class="fas fa-cloud-upload-alt upload-icon"></i>
+        <p>Click to upload image</p>
+        <p class="sub">or paste image path below</p>
+        <input type="file" id="imageFileInput" accept="image/*" style="display:none;">
+      </div>
+      <div class="field-group image-path-input">
+        <label>Image Path (for code output)</label>
+        <input type="text" id="prodImgPath" placeholder="images/product-name.png">
+      </div>
+    </div>
+
+    <div class="form-section">
+      <button class="btn btn-primary" id="addProductBtn">
+        <i class="fas fa-plus"></i> <span id="addBtnText">Add Product</span>
+      </button>
+      <button class="btn btn-secondary" id="resetFormBtn" style="width:100%;justify-content:center;margin-top:8px;">
+        <i class="fas fa-eraser"></i> Reset Form
+      </button>
+    </div>
+  </div>
+
+  <div class="output-panel">
+    <div class="stats-bar">
+      <div class="stat-item">
+        <div class="val" id="statCount">0</div>
+        <div class="lbl">Products</div>
+      </div>
+      <div class="stat-item">
+        <div class="val" id="statTags">0</div>
+        <div class="lbl">Tags</div>
+      </div>
+      <div class="stat-item">
+        <div class="val" id="statCats">0</div>
+        <div class="lbl">Categories</div>
+      </div>
+      <div class="stat-item">
+        <div class="val" id="statVariants">0</div>
+        <div class="lbl">Variant Sets</div>
+      </div>
+    </div>
+
+    <div class="output-toolbar">
+      <h2><i class="fas fa-list" style="color:#f59e0b;margin-right:8px;"></i>Products</h2>
+      <div class="toolbar-actions">
+        <button class="btn btn-info btn-sm" id="importBtn"><i class="fas fa-file-import"></i> Import</button>
+
+        <div class="dropdown">
+          <button class="btn btn-success btn-sm" id="exportBtn">
+            <i class="fas fa-file-export"></i> Export <i class="fas fa-chevron-down" style="font-size:10px;margin-left:4px;"></i>
+          </button>
+          <div class="dropdown-menu" id="exportMenu">
+            <button class="dropdown-item" data-export="js">
+              <i class="fab fa-js" style="color:#f7df1e;"></i>
+              Export as JavaScript
+              <span class="ext">.JS</span>
+            </button>
+            <button class="dropdown-item" data-export="json">
+              <i class="fas fa-brackets-curly" style="color:#86efac;"></i>
+              Export as JSON
+              <span class="ext">.JSON</span>
+            </button>
+            <div class="dropdown-divider"></div>
+            <button class="dropdown-item" data-export="copy-js">
+              <i class="fas fa-copy"></i>
+              Copy JS Code
+            </button>
+            <button class="dropdown-item" data-export="copy-json">
+              <i class="fas fa-copy"></i>
+              Copy JSON
+            </button>
+          </div>
+        </div>
+
+        <button class="btn btn-danger btn-sm" id="clearAllBtn"><i class="fas fa-trash"></i> Clear All</button>
+      </div>
+    </div>
+
+    <div class="products-list" id="productsList">
+      <div class="empty-state" id="emptyState">
+        <i class="fas fa-box-open"></i>
+        <h3>No products yet</h3>
+        <p>Fill in the form and click "Add Product" to get started</p>
+      </div>
+    </div>
+
+    <div class="output-tabs" id="outputTabs" style="display:none;">
+      <button class="output-tab active" data-tab="js"><i class="fab fa-js"></i> JS Code</button>
+      <button class="output-tab" data-tab="json"><i class="fas fa-brackets-curly"></i> JSON Preview</button>
+    </div>
+
+    <div class="code-output" id="codeOutput" style="display:none;">
+      <div class="code-header">
+        <span id="codeHeaderLabel"><i class="fas fa-code"></i> JS Code</span>
+        <button class="btn btn-secondary btn-sm" id="copyCodeBtn2"><i class="fas fa-copy"></i> Copy</button>
+      </div>
+      <div class="code-body">
+        <pre id="codeContent"></pre>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Import Modal -->
+<div class="modal-overlay" id="importModal">
+  <div class="modal">
+    <h3><i class="fas fa-file-import"></i> Import Products</h3>
+    <p id="importModalMsg">Choose a .js or .json file to import products.</p>
+    <div class="import-summary" id="importSummary" style="display:none;">
+      <div class="row"><span>File</span><span id="importFileName">—</span></div>
+      <div class="row"><span>Type</span><span id="importFileType">—</span></div>
+      <div class="row"><span>Products found</span><span id="importProductCount">0</span></div>
+    </div>
+    <div class="field-group">
+      <label>Import file (.js or .json)</label>
+      <input type="file" id="importFileInput" accept=".js,.json,application/json,text/javascript">
+    </div>
+    <div class="field-group">
+      <label>Import mode</label>
+      <select id="importMode">
+        <option value="replace">Replace all existing products</option>
+        <option value="merge">Merge with existing products</option>
+      </select>
+    </div>
+    <div class="modal-actions">
+      <button class="btn btn-secondary btn-sm" id="importCancelBtn">Cancel</button>
+      <button class="btn btn-primary btn-sm" id="importConfirmBtn" style="width:auto;" disabled>
+        <i class="fas fa-check"></i> Import
+      </button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"><i class="fas fa-check-circle"></i> <span id="toastMsg">Copied!</span></div>
+
+<script>
+  const STORAGE_KEY = 'productCodeGen_v2';
+
+  /* ============ DEFAULT STATE ============ */
+  const DEFAULT_VARIANT_SETS = [
+    {
+      name: 'ATTAR_VARIANTS',
+      items: [
+        { label: '6ml', price: 299 },
+        { label: '12ml', price: 599 }
+      ]
+    },
+    {
+      name: 'SIZE_VARIANTS',
+      items: [
+        { label: '50ml', price: 799 },
+        { label: '100ml', price: 1299 }
+      ]
+    }
+  ];
+
+  const DEFAULT_CATEGORIES = ['All', 'Attar', 'Perfume'];
+
+  let products = [];
+  let variantSets = JSON.parse(JSON.stringify(DEFAULT_VARIANT_SETS));
+  let categories = [...DEFAULT_CATEGORIES];
+  let editingIndex = -1;
+  let selectedTag = '';
+  let uploadedImageData = null;
+  let activeTab = 'js';
+  let pendingImportData = null;
+
+  /* ============ DOM REFS ============ */
+  const prodId = document.getElementById('prodId');
+  const prodName = document.getElementById('prodName');
+  const prodWt = document.getElementById('prodWt');
+  const prodDesc = document.getElementById('prodDesc');
+  const prodImgPath = document.getElementById('prodImgPath');
+  const prodCat = document.getElementById('prodCat');
+  const prodVariantSelect = document.getElementById('prodVariantSelect');
+  const imageUploadArea = document.getElementById('imageUploadArea');
+  const imageFileInput = document.getElementById('imageFileInput');
+  const addProductBtn = document.getElementById('addProductBtn');
+  const addBtnText = document.getElementById('addBtnText');
+  const resetFormBtn = document.getElementById('resetFormBtn');
+  const productsList = document.getElementById('productsList');
+  const emptyState = document.getElementById('emptyState');
+  const codeOutput = document.getElementById('codeOutput');
+  const codeContent = document.getElementById('codeContent');
+  const customTagGroup = document.getElementById('customTagGroup');
+  const customTag = document.getElementById('customTag');
+  const outputTabs = document.getElementById('outputTabs');
+  const codeHeaderLabel = document.getElementById('codeHeaderLabel');
+  const storageLabel = document.getElementById('storageLabel');
+  const variantSetsContainer = document.getElementById('variantSetsContainer');
+  const categoryEditor = document.getElementById('categoryEditor');
+
+  /* ============ LOCAL STORAGE ============ */
+  function saveToStorage() {
+    try {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify({
+        products, variantSets, categories
+      }));
+      updateStorageBadge(true);
+    } catch (err) {
+      if (err.name === 'QuotaExceededError') {
+        showToast('Storage full! Remove some images.', true);
+      } else {
+        showToast('Could not save', true);
+      }
+      updateStorageBadge(false);
+    }
+  }
+
+  function loadFromStorage() {
+    try {
+      const raw = localStorage.getItem(STORAGE_KEY);
+      if (!raw) return false;
+      const parsed = JSON.parse(raw);
+      if (Array.isArray(parsed.products)) products = parsed.products;
+      if (Array.isArray(parsed.variantSets)) variantSets = parsed.variantSets;
+      if (Array.isArray(parsed.categories)) categories = parsed.categories;
+      return true;
+    } catch (err) {
+      showToast('Could not load saved data', true);
+    }
+    return false;
+  }
+
+  function updateStorageBadge(saved) {
+    const badge = document.getElementById('storageBadge');
+    if (saved) {
+      storageLabel.textContent = `Auto-saved (${products.length})`;
+      badge.style.background = 'rgba(34,197,94,0.12)';
+      badge.style.borderColor = 'rgba(34,197,94,0.25)';
+      badge.style.color = '#22c55e';
+    } else {
+      storageLabel.textContent = 'Save failed';
+      badge.style.background = 'rgba(239,68,68,0.12)';
+      badge.style.borderColor = 'rgba(239,68,68,0.25)';
+      badge.style.color = '#ef4444';
+    }
+  }
+
+  /* ============ COLLAPSIBLE CONFIG ============ */
+  const configHeader = document.getElementById('configHeader');
+  const configBody = document.getElementById('configBody');
+  configHeader.addEventListener('click', () => {
+    configHeader.classList.toggle('open');
+    configBody.classList.toggle('open');
+  });
+
+  /* ============ VARIANT SETS EDITOR ============ */
+  function renderVariantSets() {
+    variantSetsContainer.innerHTML = '';
+    variantSets.forEach((set, setIdx) => {
+      const card = document.createElement('div');
+      card.className = 'variant-set-card';
+      card.innerHTML = `
+        <div class="variant-set-header">
+          <input type="text" value="${escapeAttr(set.name)}" data-set-idx="${setIdx}" class="variant-set-name-input" spellcheck="false">
+          <button class="remove-set-btn" data-set-idx="${setIdx}" title="Remove set"><i class="fas fa-trash"></i></button>
+        </div>
+        <div class="variant-items" data-set-idx="${setIdx}">
+          ${set.items.map((item, itemIdx) => `
+            <div class="variant-row">
+              <input type="text" placeholder="Label" value="${escapeAttr(item.label)}" data-set="${setIdx}" data-item="${itemIdx}" class="variant-label-input">
+              <input type="number" placeholder="Price" value="${item.price}" data-set="${setIdx}" data-item="${itemIdx}" class="variant-price-input">
+              <button class="remove-variant-btn" data-set="${setIdx}" data-item="${itemIdx}" title="Remove"><i class="fas fa-times"></i></button>
+            </div>
+          `).join('')}
+        </div>
+        <div class="variant-set-actions">
+          <button class="btn btn-secondary btn-xs add-variant-item-btn" data-set="${setIdx}"><i class="fas fa-plus"></i> Add Option</button>
+        </div>
+      `;
+      variantSetsContainer.appendChild(card);
+    });
+
+    // Bind events
+    document.querySelectorAll('.variant-set-name-input').forEach(inp => {
+      inp.addEventListener('change', (e) => {
+        const idx = parseInt(e.target.dataset.setIdx);
+        variantSets[idx].name = e.target.value.trim().replace(/[^A-Za-z0-9_]/g, '_').toUpperCase();
+        e.target.value = variantSets[idx].name;
+        saveToStorage();
+        refreshVariantSelect();
+        renderCode();
+      });
+    });
+    document.querySelectorAll('.remove-set-btn').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        const idx = parseInt(e.currentTarget.dataset.setIdx);
+        if (variantSets.length <= 1) {
+          showToast('At least one variant set required', true);
+          return;
+        }
+        variantSets.splice(idx, 1);
+        saveToStorage();
+        renderVariantSets();
+        refreshVariantSelect();
+        renderCode();
+      });
+    });
+    document.querySelectorAll('.variant-label-input').forEach(inp => {
+      inp.addEventListener('change', (e) => {
+        const si = parseInt(e.target.dataset.set);
+        const ii = parseInt(e.target.dataset.item);
+        variantSets[si].items[ii].label = e.target.value;
+        saveToStorage();
+        renderCode();
+      });
+    });
+    document.querySelectorAll('.variant-price-input').forEach(inp => {
+      inp.addEventListener('change', (e) => {
+        const si = parseInt(e.target.dataset.set);
+        const ii = parseInt(e.target.dataset.item);
+        variantSets[si].items[ii].price = parseFloat(e.target.value) || 0;
+        saveToStorage();
+        renderCode();
+      });
+    });
+    document.querySelectorAll('.remove-variant-btn').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        const si = parseInt(e.currentTarget.dataset.set);
+        const ii = parseInt(e.currentTarget.dataset.item);
+        if (variantSets[si].items.length <= 1) {
+          showToast('At least one option required', true);
+          return;
+        }
+        variantSets[si].items.splice(ii, 1);
+        saveToStorage();
+        renderVariantSets();
+        renderCode();
+      });
+    });
+    document.querySelectorAll('.add-variant-item-btn').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        const si = parseInt(e.currentTarget.dataset.set);
+        variantSets[si].items.push({ label: '', price: 0 });
+        saveToStorage();
+        renderVariantSets();
+        renderCode();
+      });
+    });
+  }
+
+  document.getElementById('addVariantSetBtn').addEventListener('click', () => {
+    const num = variantSets.length + 1;
+    variantSets.push({
+      name: `VARIANT_SET_${num}`,
+      items: [{ label: '', price: 0 }]
+    });
+    saveToStorage();
+    renderVariantSets();
+    refreshVariantSelect();
+    renderCode();
+  });
+
+  /* ============ CATEGORIES EDITOR ============ */
+  function renderCategories() {
+    categoryEditor.innerHTML = '';
+    categories.forEach((cat, idx) => {
+      const chip = document.createElement('span');
+      chip.className = 'category-chip';
+      chip.innerHTML = `${escapeHtml(cat)} <button data-idx="${idx}" title="Remove"><i class="fas fa-times"></i></button>`;
+      categoryEditor.appendChild(chip);
+    });
+    document.querySelectorAll('.category-chip button').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        const idx = parseInt(e.currentTarget.dataset.idx);
+        if (categories.length <= 1) {
+          showToast('At least one category required', true);
+          return;
+        }
+        categories.splice(idx, 1);
+        saveToStorage();
+        renderCategories();
+        refreshCategorySelect();
+        renderCode();
+      });
+    });
+  }
+
+  document.getElementById('addCategoryBtn').addEventListener('click', () => {
+    const input = document.getElementById('newCategoryInput');
+    const val = input.value.trim();
+    if (!val) return;
+    if (categories.includes(val)) {
+      showToast('Category already exists', true);
+      return;
+    }
+    categories.push(val);
+    input.value = '';
+    saveToStorage();
+    renderCategories();
+    refreshCategorySelect();
+    renderCode();
+  });
+  document.getElementById('newCategoryInput').addEventListener('keypress', (e) => {
+    if (e.key === 'Enter') document.getElementById('addCategoryBtn').click();
+  });
+
+  /* ============ SELECTS ============ */
+  function refreshCategorySelect() {
+    const current = prodCat.value;
+    prodCat.innerHTML = categories.map(c => `<option value="${escapeAttr(c)}">${escapeHtml(c)}</option>`).join('');
+    if (categories.includes(current)) prodCat.value = current;
+  }
+
+  function refreshVariantSelect() {
+    const current = prodVariantSelect.value;
+    prodVariantSelect.innerHTML = variantSets.map(s => `<option value="${escapeAttr(s.name)}">${escapeHtml(s.name)}</option>`).join('');
+    if (variantSets.some(s => s.name === current)) prodVariantSelect.value = current;
+  }
+
+  /* ============ INIT ============ */
+  function generateId() {
+    return 'p' + (products.length + 1);
+  }
+
+  /* ============ TAG SELECTION ============ */
+  document.querySelectorAll('.tag-chip').forEach(chip => {
+    chip.addEventListener('click', () => {
+      document.querySelectorAll('.tag-chip').forEach(c => c.classList.remove('active'));
+      chip.classList.add('active');
+      const tag = chip.dataset.tag;
+      if (tag === 'Custom') {
+        customTagGroup.style.display = 'block';
+        selectedTag = '';
+        customTag.focus();
+      } else {
+        customTagGroup.style.display = 'none';
+        selectedTag = tag;
+      }
+    });
+  });
+  customTag.addEventListener('input', () => { selectedTag = customTag.value.trim(); });
+
+  /* ============ IMAGE UPLOAD ============ */
+  imageUploadArea.addEventListener('click', () => imageFileInput.click());
+  imageFileInput.addEventListener('change', (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = (ev) => {
+      uploadedImageData = ev.target.result;
+      imageUploadArea.classList.add('has-image');
+      imageUploadArea.innerHTML = `<img src="${uploadedImageData}" class="image-preview" alt="Preview">`;
+      prodImgPath.value = 'images/' + file.name;
+    };
+    reader.readAsDataURL(file);
+  });
+
+  /* ============ ADD / UPDATE ============ */
+  addProductBtn.addEventListener('click', () => {
+    const id = prodId.value.trim();
+    const name = prodName.value.trim();
+    const wt = parseFloat(prodWt.value) || 0;
+    const desc = prodDesc.value.trim();
+    const img = prodImgPath.value.trim();
+    const cat = prodCat.value || 'Perfume';
+    const variants = prodVariantSelect.value || 'SIZE_VARIANTS';
+    const tag = selectedTag || (customTagGroup.style.display !== 'none' ? customTag.value.trim() : '');
+
+    if (!name) { showToast('Please enter a product name', true); prodName.focus(); return; }
+    if (!id) { showToast('Please enter a product ID', true); prodId.focus(); return; }
+
+    const product = {
+      id, name, tag: tag || 'New', cat, wt,
+      img: img || `images/${name.toLowerCase().replace(/\s+/g,'-')}.png`,
+      variants,
+      desc: desc || 'Product description.',
+      imageData: uploadedImageData
+    };
+
+    if (editingIndex >= 0) {
+      products[editingIndex] = product;
+      showToast('Product updated & saved!');
+    } else {
+      products.push(product);
+      showToast('Product added & saved!');
+    }
+
+    saveToStorage();
+    resetForm();
+    renderAll();
+  });
+
+  function resetForm() {
+    prodId.value = generateId();
+    prodName.value = '';
+    prodWt.value = '';
+    prodDesc.value = '';
+    prodImgPath.value = '';
+    uploadedImageData = null;
+    selectedTag = '';
+    customTagGroup.style.display = 'none';
+    customTag.value = '';
+    document.querySelectorAll('.tag-chip').forEach(c => c.classList.remove('active'));
+    imageUploadArea.classList.remove('has-image');
+    imageUploadArea.innerHTML = `
+      <i class="fas fa-cloud-upload-alt upload-icon"></i>
+      <p>Click to upload image</p>
+      <p class="sub">or paste image path below</p>
+    `;
+    imageFileInput.value = '';
+    editingIndex = -1;
+    addBtnText.textContent = 'Add Product';
+    addProductBtn.querySelector('i').className = 'fas fa-plus';
+    // Reset selects to first option
+    if (categories.length) prodCat.selectedIndex = categories.length > 1 ? 1 : 0;
+    if (variantSets.length) prodVariantSelect.selectedIndex = 0;
+  }
+  resetFormBtn.addEventListener('click', resetForm);
+
+  function editProduct(index) {
+    const p = products[index];
+    editingIndex = index;
+    prodId.value = p.id;
+    prodName.value = p.name;
+    prodWt.value = p.wt;
+    prodDesc.value = p.desc;
+    prodImgPath.value = p.img;
+
+    // Category
+    if (categories.includes(p.cat)) prodCat.value = p.cat;
+    else {
+      categories.push(p.cat);
+      saveToStorage();
+      renderCategories();
+      refreshCategorySelect();
+      prodCat.value = p.cat;
+    }
+
+    // Variant set
+    if (variantSets.some(s => s.name === p.variants)) prodVariantSelect.value = p.variants;
+    else prodVariantSelect.selectedIndex = 0;
+
+    // Tag
+    document.querySelectorAll('.tag-chip').forEach(c => {
+      c.classList.remove('active');
+      if (c.dataset.tag === p.tag) { c.classList.add('active'); selectedTag = p.tag; }
+    });
+    if (!selectedTag || !document.querySelector(`.tag-chip[data-tag="${p.tag}"]`)) {
+      customTagGroup.style.display = 'block';
+      customTag.value = p.tag;
+      selectedTag = p.tag;
+    }
+
+    if (p.imageData) {
+      uploadedImageData = p.imageData;
+      imageUploadArea.classList.add('has-image');
+      imageUploadArea.innerHTML = `<img src="${uploadedImageData}" class="image-preview" alt="Preview">`;
+    }
+
+    addBtnText.textContent = 'Update Product';
+    addProductBtn.querySelector('i').className = 'fas fa-save';
+    document.querySelector('.form-panel').scrollTop = 0;
+  }
+
+  function deleteProduct(index) {
+    products.splice(index, 1);
+    if (editingIndex === index) resetForm();
+    else if (editingIndex > index) editingIndex--;
+    saveToStorage();
+    renderAll();
+    showToast('Product deleted & saved');
+  }
+
+  /* ============ CODE GENERATION ============ */
+  function buildVariantSetJs(set) {
+    const items = set.items.map(item => {
+      return `  {label:'${item.label}', price:${item.price}}`;
+    }).join(',\n');
+    return `const ${set.name}=[\n${items}\n];`;
+  }
+
+  function buildCategoriesJs() {
+    return `const CATEGORIES=${JSON.stringify(categories)};`;
+  }
+
+  function buildProductLine(p) {
+    const catStr = `'${p.cat}'`;
+    const variantsStr = isVariantRef(p.variants) ? p.variants : JSON.stringify(p.variants);
+    return ` {id:'${p.id}',name:'${p.name}', tag:'${p.tag}', cat:${catStr}, wt:${p.wt}, img:'${p.img}', variants:${variantsStr}, desc:'${p.desc}'}`;
+  }
+
+  function getRawJsCode() {
+    return products.map((p, i) => {
+      const comma = i < products.length - 1 ? ',' : '';
+      return buildProductLine(p) + comma;
+    }).join('\n');
+  }
+
+  function getFullJsFile() {
+    const variantBlocks = variantSets.map(s => buildVariantSetJs(s)).join('\n');
+    const categoriesBlock = buildCategoriesJs();
+    const productLines = products.map((p, i) => {
+      const comma = i < products.length - 1 ? ',' : '';
+      return buildProductLine(p) + comma;
+    });
+
+    return `/* 🧴 PRODUCT VARIATIONS — edit prices here once, applies to all cards */
+${variantBlocks}
+${categoriesBlock}
+
+const PRODUCTS = [
+
+ /*---------Add Products ---------*/
+${productLines.join('\n')}
+];
+
+export default PRODUCTS;
+`;
+  }
+
+  function getRawJson() {
+    const data = {
+      _meta: {
+        generatedAt: new Date().toISOString(),
+        generator: 'Product Code Generator'
+      },
+      variantSets: variantSets,
+      categories: categories,
+      products: products.map(p => {
+        const obj = {
+          id: p.id, name: p.name, tag: p.tag, cat: p.cat,
+          wt: p.wt, img: p.img
+        };
+        if (isVariantRef(p.variants)) obj._variantsRef = p.variants;
+        else {
+          try { obj.variants = JSON.parse(p.variants); } catch(e) { obj.variants = p.variants; }
+        }
+        obj.desc = p.desc;
+        return obj;
+      })
+    };
+    return JSON.stringify(data, null, 2);
+  }
+
+  function isVariantRef(v) {
+    return /^[A-Z_][A-Z0-9_]*$/.test(v);
+  }
+
+  function renderAll() {
+    renderProductsList();
+    renderCode();
+    updateStats();
+  }
+
+  function renderProductsList() {
+    if (products.length === 0) {
+      productsList.innerHTML = '';
+      productsList.appendChild(emptyState);
+      emptyState.style.display = 'block';
+      codeOutput.style.display = 'none';
+      outputTabs.style.display = 'none';
+      return;
+    }
+    emptyState.style.display = 'none';
+    codeOutput.style.display = 'block';
+    outputTabs.style.display = 'flex';
+
+    productsList.innerHTML = products.map((p, i) => `
+      <div class="product-card ${editingIndex === i ? 'active' : ''}" onclick="editProduct(${i})">
+        ${p.imageData
+          ? `<img src="${p.imageData}" alt="${p.name}">`
+          : `<div style="width:56px;height:56px;border-radius:10px;background:#1e1e2a;display:flex;align-items:center;justify-content:center;"><i class="fas fa-image" style="color:#4b5563;"></i></div>`
+        }
+        <div class="info">
+          <h4>${escapeHtml(p.name)}</h4>
+          <div class="meta">
+            <span><i class="fas fa-hashtag"></i> ${escapeHtml(p.id)}</span>
+            <span><i class="fas fa-weight-hanging"></i> ${p.wt}kg</span>
+          </div>
+        </div>
+        <div class="badges">
+          <span class="cat-badge">${escapeHtml(p.cat || '')}</span>
+          <span class="tag-badge">${escapeHtml(p.tag)}</span>
+        </div>
+        <div class="card-actions">
+          <button class="edit-btn" onclick="event.stopPropagation();editProduct(${i})" title="Edit"><i class="fas fa-pen"></i></button>
+          <button class="del-btn" onclick="event.stopPropagation();deleteProduct(${i})" title="Delete"><i class="fas fa-trash"></i></button>
+        </div>
+      </div>
+    `).join('');
+  }
+
+  function renderCode() {
+    if (products.length === 0 && variantSets.length === 0) {
+      codeOutput.style.display = 'none';
+      outputTabs.style.display = 'none';
+      return;
+    }
+    codeOutput.style.display = 'block';
+    outputTabs.style.display = 'flex';
+
+    if (activeTab === 'js') {
+      codeHeaderLabel.innerHTML = '<i class="fab fa-js"></i> products.js';
+      codeContent.innerHTML = syntaxHighlightJs(getFullJsFile());
+    } else {
+      codeHeaderLabel.innerHTML = '<i class="fas fa-brackets-curly"></i> products.json';
+      codeContent.innerHTML = syntaxHighlightJson(getRawJson());
+    }
+  }
+
+  function syntaxHighlightJs(code) {
+    return code
+      .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+      .replace(/(\/\*[\s\S]*?\*\/|\/\/.*)/g, '<span class="comment">$1</span>')
+      .replace(/\b(const|export|default)\b/g, '<span class="kw">$1</span>')
+      .replace(/'([^']*)'/g, '<span class="str">\'$1\'</span>')
+      .replace(/:\s*(\d+\.?\d*)([,}\n])/g, ': <span class="num">$1</span>$2')
+      .replace(/\b([A-Z_][A-Z0-9_]*)\b(?=\s*[=\[,;])/g, '<span class="prop">$1</span>');
+  }
+
+  function syntaxHighlightJson(json) {
+    return json
+      .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+      .replace(/"([^"]+)":/g, '<span class="prop">"$1"</span>:')
+      .replace(/: "([^"]*)"/g, ': <span class="str">"$1"</span>')
+      .replace(/: (\d+\.?\d*)/g, ': <span class="num">$1</span>')
+      .replace(/[{}[\]]/g, '<span class="punct">$&</span>');
+  }
+
+  document.querySelectorAll('.output-tab').forEach(tab => {
+    tab.addEventListener('click', () => {
+      document.querySelectorAll('.output-tab').forEach(t => t.classList.remove('active'));
+      tab.classList.add('active');
+      activeTab = tab.dataset.tab;
+      renderCode();
+    });
+  });
+
+  function updateStats() {
+    document.getElementById('statCount').textContent = products.length;
+    document.getElementById('statTags').textContent = new Set(products.map(p => p.tag)).size;
+    const usedCats = new Set(products.map(p => p.cat).filter(Boolean));
+    document.getElementById('statCats').textContent = usedCats.size;
+    document.getElementById('statVariants').textContent = variantSets.length;
+  }
+
+  /* ============ COPY ============ */
+  function copyCode() {
+    const raw = activeTab === 'js' ? getFullJsFile() : getRawJson();
+    navigator.clipboard.writeText(raw).then(() => showToast('Code copied!'))
+      .catch(() => {
+        const ta = document.createElement('textarea');
+        ta.value = raw;
+        document.body.appendChild(ta); ta.select();
+        document.execCommand('copy');
+        document.body.removeChild(ta);
+        showToast('Code copied!');
+      });
+  }
+  document.getElementById('copyCodeBtn2').addEventListener('click', copyCode);
+
+  /* ============ EXPORT DROPDOWN ============ */
+  const exportBtn = document.getElementById('exportBtn');
+  const exportMenu = document.getElementById('exportMenu');
+
+  exportBtn.addEventListener('click', (e) => {
+    e.stopPropagation();
+    exportMenu.classList.toggle('show');
+  });
+  document.addEventListener('click', () => exportMenu.classList.remove('show'));
+  exportMenu.addEventListener('click', (e) => e.stopPropagation());
+
+  document.querySelectorAll('.dropdown-item').forEach(item => {
+    item.addEventListener('click', () => {
+      const action = item.dataset.export;
+      exportMenu.classList.remove('show');
+
+      if (products.length === 0) {
+        showToast('No products to export', true);
+        return;
+      }
+
+      if (action === 'js') {
+        downloadFile(getFullJsFile(), 'products.js', 'text/javascript');
+        showToast('products.js downloaded!');
+      } else if (action === 'json') {
+        downloadFile(getRawJson(), 'products.json', 'application/json');
+        showToast('products.json downloaded!');
+      } else if (action === 'copy-js') {
+        navigator.clipboard.writeText(getFullJsFile()).then(() => showToast('JS code copied!'));
+      } else if (action === 'copy-json') {
+        navigator.clipboard.writeText(getRawJson()).then(() => showToast('JSON copied!'));
+      }
+    });
+  });
+
+  function downloadFile(content, filename, type) {
+    const blob = new Blob([content], { type });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url; a.download = filename;
+    document.body.appendChild(a); a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+  }
+
+  /* ============ IMPORT ============ */
+  const importModal = document.getElementById('importModal');
+  const importBtn = document.getElementById('importBtn');
+  const importFileInput = document.getElementById('importFileInput');
+  const importConfirmBtn = document.getElementById('importConfirmBtn');
+  const importCancelBtn = document.getElementById('importCancelBtn');
+  const importSummary = document.getElementById('importSummary');
+  const importFileName = document.getElementById('importFileName');
+  const importFileType = document.getElementById('importFileType');
+  const importProductCount = document.getElementById('importProductCount');
+  const importModalMsg = document.getElementById('importModalMsg');
+
+  importBtn.addEventListener('click', () => {
+    pendingImportData = null;
+    importFileInput.value = '';
+    importSummary.style.display = 'none';
+    importConfirmBtn.disabled = true;
+    importModalMsg.textContent = 'Choose a .js or .json file to import products.';
+    importModal.classList.add('show');
+  });
+
+  importCancelBtn.addEventListener('click', () => {
+    importModal.classList.remove('show');
+    pendingImportData = null;
+  });
+
+  importModal.addEventListener('click', (e) => {
+    if (e.target === importModal) {
+      importModal.classList.remove('show');
+      pendingImportData = null;
+    }
+  });
+
+  importFileInput.addEventListener('change', (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+    reader.onload = (ev) => {
+      try {
+        const content = ev.target.result;
+        const ext = file.name.split('.').pop().toLowerCase();
+        let parsed = { products: [], variantSets: null, categories: null };
+
+        if (ext === 'json') {
+          parsed = parseJsonImport(content);
+        } else if (ext === 'js') {
+          parsed = parseJsImport(content);
+        } else {
+          showToast('Unsupported file type', true);
+          return;
+        }
+
+        if (parsed.products.length === 0) {
+          showToast('No valid products found', true);
+          importConfirmBtn.disabled = true;
+          importSummary.style.display = 'none';
+          return;
+        }
+
+        pendingImportData = {
+          fileName: file.name,
+          fileType: ext.toUpperCase(),
+          ...parsed
+        };
+
+        importFileName.textContent = file.name;
+        importFileType.textContent = ext.toUpperCase();
+        importProductCount.textContent = parsed.products.length;
+        importSummary.style.display = 'block';
+        importConfirmBtn.disabled = false;
+        importModalMsg.textContent = `Found ${parsed.products.length} product(s) in "${file.name}".`;
+      } catch (err) {
+        console.error(err);
+        showToast('Failed to parse: ' + err.message, true);
+        importConfirmBtn.disabled = true;
+      }
+    };
+    reader.readAsText(file);
+  });
+
+  importConfirmBtn.addEventListener('click', () => {
+    if (!pendingImportData) return;
+    const mode = document.getElementById('importMode').value;
+
+    if (pendingImportData.variantSets && pendingImportData.variantSets.length) {
+      variantSets = pendingImportData.variantSets;
+    }
+    if (pendingImportData.categories && pendingImportData.categories.length) {
+      categories = pendingImportData.categories;
+    }
+
+    if (mode === 'replace') {
+      products = pendingImportData.products;
+    } else {
+      pendingImportData.products.forEach(p => {
+        const idx = products.findIndex(ep => ep.id === p.id);
+        if (idx >= 0) products[idx] = p;
+        else products.push(p);
+      });
+    }
+
+    saveToStorage();
+    resetForm();
+    renderVariantSets();
+    renderCategories();
+    refreshCategorySelect();
+    refreshVariantSelect();
+    renderAll();
+    importModal.classList.remove('show');
+    pendingImportData = null;
+    showToast(`Imported ${pendingImportData?.products?.length || 0} product(s)!`);
+  });
+
+  function parseJsonImport(content) {
+    const data = JSON.parse(content);
+    let arr = [];
+    let vSets = null;
+    let cats = null;
+
+    if (Array.isArray(data)) {
+      arr = data;
+    } else {
+      arr = data.products || data.PRODUCTS || [];
+      if (data.variantSets) vSets = data.variantSets;
+      if (data.categories) cats = data.categories;
+    }
+
+    return {
+      products: arr.map(normalizeProduct).filter(Boolean),
+      variantSets: vSets,
+      categories: cats
+    };
+  }
+
+  function parseJsImport(content) {
+    let cleaned = content
+      .replace(/\/\*[\s\S]*?\*\//g, '')
+      .replace(/\/\/.*$/gm, '');
+
+    // Extract variant sets
+    const vSets = [];
+    const vSetRegex = /const\s+([A-Z_][A-Z0-9_]*)\s*=\s*\[([\s\S]*?)\];/g;
+    let vm;
+    const usedSetNames = new Set();
+    while ((vm = vSetRegex.exec(cleaned)) !== null) {
+      const name = vm[1];
+      if (name === 'PRODUCTS' || name === 'CATEGORIES') continue;
+      const body = vm[2];
+      const items = [];
+      const itemRegex = /\{\s*label\s*:\s*'([^']*)'\s*,\s*price\s*:\s*(\d+\.?\d*)\s*\}/g;
+      let im;
+      while ((im = itemRegex.exec(body)) !== null) {
+        items.push({ label: im[1], price: parseFloat(im[2]) });
+      }
+      if (items.length > 0) {
+        vSets.push({ name, items });
+        usedSetNames.add(name);
+      }
+    }
+
+    // Extract categories
+    let cats = null;
+    const catMatch = cleaned.match(/const\s+CATEGORIES\s*=\s*(\[[^\]]*\])/);
+    if (catMatch) {
+      try { cats = JSON.parse(catMatch[1]); } catch(e) {}
+    }
+
+    // Extract products
+    const products = [];
+    const prodBlockMatch = cleaned.match(/const\s+PRODUCTS\s*=\s*\[([\s\S]*)\]/);
+    if (prodBlockMatch) {
+      const prodBody = prodBlockMatch[1];
+      const objRegex = /\{([^{}]+)\}/g;
+      let om;
+      while ((om = objRegex.exec(prodBody)) !== null) {
+        const p = extractProductFromJsObject(om[1]);
+        if (p) products.push(p);
+      }
+    }
+
+    return { products, variantSets: vSets.length ? vSets : null, categories: cats };
+  }
+
+  function extractProductFromJsObject(body) {
+    const p = {};
+    ['id', 'name', 'tag', 'cat', 'img', 'desc'].forEach(key => {
+      const re = new RegExp(`${key}\\s*:\\s*(?:'([^']*)'|"([^"]*)")`);
+      const m = body.match(re);
+      if (m) p[key] = m[1] !== undefined ? m[1] : m[2];
+    });
+    const wtM = body.match(/wt\s*:\s*(\d+\.?\d*)/);
+    if (wtM) p.wt = parseFloat(wtM[1]);
+    const varM = body.match(/variants\s*:\s*(\[[^\]]*\]|[A-Z_][A-Z0-9_]*)/);
+    if (varM) p.variants = varM[1].trim();
+    if (!p.id || !p.name) return null;
+    return normalizeProduct(p);
+  }
+
+  function normalizeProduct(raw) {
+    if (!raw.id || !raw.name) return null;
+    return {
+      id: String(raw.id),
+      name: String(raw.name),
+      tag: raw.tag || 'New',
+      cat: raw.cat || 'Perfume',
+      wt: typeof raw.wt === 'number' ? raw.wt : (parseFloat(raw.wt) || 0),
+      img: raw.img || `images/${String(raw.name).toLowerCase().replace(/\s+/g,'-')}.png`,
+      variants: formatVariants(raw.variants || raw._variantsRef || 'SIZE_VARIANTS'),
+      desc: raw.desc || 'Product description.',
+      imageData: raw.imageData || null
+    };
+  }
+
+  function formatVariants(v) {
+    if (Array.isArray(v)) return JSON.stringify(v);
+    if (typeof v === 'string') return v;
+    return 'SIZE_VARIANTS';
+  }
+
+  /* ============ CLEAR ALL ============ */
+  document.getElementById('clearAllBtn').addEventListener('click', () => {
+    if (products.length === 0) return;
+    if (confirm('Delete all products? This will also clear saved data.')) {
+      products = [];
+      localStorage.removeItem(STORAGE_KEY);
+      resetForm();
+      renderAll();
+      updateStorageBadge(true);
+      storageLabel.textContent = 'Auto-saved (0)';
+      showToast('All products cleared');
+    }
+  });
+
+  /* ============ UTILS ============ */
+  function showToast(msg, isError) {
+    const toast = document.getElementById('toast');
+    document.getElementById('toastMsg').textContent = msg;
+    toast.style.background = isError ? '#ef4444' : '#22c55e';
+    toast.classList.add('show');
+    setTimeout(() => toast.classList.remove('show'), 2500);
+  }
+
+  function escapeHtml(str) {
+    if (str == null) return '';
+    const div = document.createElement('div');
+    div.textContent = String(str);
+    return div.innerHTML;
+  }
+
+  function escapeAttr(str) {
+    return String(str).replace(/"/g, '&quot;').replace(/</g, '&lt;');
+  }
+
+  /* ============ BOOT ============ */
+  const loaded = loadFromStorage();
+  renderVariantSets();
+  renderCategories();
+  refreshCategorySelect();
+  refreshVariantSelect();
+
+  if (loaded && products.length > 0) {
+    showToast(`Loaded ${products.length} product(s) from storage`);
+  }
+  prodId.value = generateId();
+  if (categories.length > 1) prodCat.selectedIndex = 1;
+  updateStorageBadge(true);
+  renderAll();
+</script>
+</body>
+</html>
