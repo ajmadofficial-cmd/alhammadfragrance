@@ -290,11 +290,9 @@ footer b{color:#fff}
   <div class="ft">
     <div><h3>AL‑HAMMAD</h3><p>Attar &amp; Perfume House.
     
-      </a><br>Luxury attars, ouds &amp; French perfumes in 6ml / 10ml / 12ml — delivered across India.
-      <!-- <a href="Hammad.html">
+      </a><br>Luxury attars, ouds &amp; French perfumes in 6ml / 10ml / 12ml — delivered across India.<a href="Hammad.html">
         </p><span class="icon">🪛</span> <span>Tool</span>
-      </a> -->
-    </div>
+      </a></div>
     <div><h3>Contact</h3><p>📞 <b>9781374993</b><br>💬 WhatsApp: <b>+91 97813 74993</b><br>📍 <b>Malerkotla, Punjab</b></p></div>
     <div><h3>Categories &amp; Delivery</h3><p>🌿 Attars • ✨ Perfumes<br>💳 UPI: <b>9781374993-3@ybl</b><br>🚚 Delivery: <b>FREE</b> across India (₹0)</p></div>
   </div>
@@ -315,17 +313,31 @@ footer b{color:#fff}
 /* ============ CONFIG ============ */
 const UPI_ID   = '9781374993-3@ybl';
 const WA_NUMBER= '919781374993';
+/* Telegram order alerts — get your CHAT_ID by messaging the bot then visiting
+   https://api.telegram.org/bot<TOKEN>/getUpdates in a browser */
+const TG_BOT_TOKEN = '8878946512:AAGmaQhdGBrmRdx4xYvD-arim28YJgbhGYE';
+const TG_CHAT_ID   = '5533536897';
 
 
 /* 🧴 PRODUCT VARIATIONS — edit prices here once, applies to all cards */
 const ATTAR_VARIANTS=[
   {label:'6ml', price:299},
   {label:'12ml', price:599}
+
+
+
 ];
 const SIZE_VARIANTS=[
   {label:'50ml', price:799},
   {label:'100ml', price:1299}
 ];
+
+const MINI_VARIANTS=[
+  {label:'1ml', price:1},
+
+   ];
+
+
 const CATEGORIES=["All","Attar","Perfume"];
 
 const PRODUCTS = [
@@ -357,7 +369,10 @@ const PRODUCTS = [
  {id:'p24',name:'Coco Chanel Perfume', tag:'Unisex', cat:'Perfume', wt:0, img:'images/Coco Chanel perfume.jpg', variants:SIZE_VARIANTS, desc:'“A timeless and captivating fragrance blending sparkling mandarin with luxurious florals and a warm, sensual base. Coco Chanel creates an elegant, feminine aura with a sophisticated and unforgettable finish.”'},
  {id:'p25',name:'Choco oud Perfume', tag:'Premium', cat:'Perfume', wt:0, img:'images/Choco Oud Perfume.jpg', variants:SIZE_VARIANTS, desc:'A luxurious fusion of rich chocolate, creamy vanilla and exotic oud, finished with warm woods and soft musk. Choco Oud is a deep, seductive fragrance made to leave a deliciously unforgettable impression.'},
  {id:'p26',name:'Gucci Flora Perfume', tag:'Premium', cat:'Perfume', wt:0, img:'images/Gucci Flora Perfume.jpg', variants:SIZE_VARIANTS, desc:'A beautiful blend of fresh mandarin, delicate florals and warm vanilla woods. Gucci Flora creates a graceful, feminine and captivating aura with a soft, elegant finish'},
- {id:'p27',name:'Creed Aventus Perfume', tag:'Bestseller', cat:'Perfume', wt:0, img:'images/Creed Aventus Perfume.jpg', variants:SIZE_VARIANTS, desc:'A powerful blend of juicy pineapple, sparkling citrus and aromatic fruits, enriched with smoky birch, patchouli and smooth musk. Creed Aventus is a confident, sophisticated fragrance designed to leave a memorable impression'}
+ {id:'p27',name:'Creed Aventus Perfume', tag:'Bestseller', cat:'Perfume', wt:0, img:'images/Creed Aventus Perfume.jpg', variants:SIZE_VARIANTS, desc:'A powerful blend of juicy pineapple, sparkling citrus and aromatic fruits, enriched with smoky birch, patchouli and smooth musk. Creed Aventus is a confident, sophisticated fragrance designed to leave a memorable impression'},
+
+{id:'p28',name:'Burbbery', tag:'Bestseller', cat:'Perfume', wt:0, img:'images/Creed Aventus Perfume.jpg', variants:MINI_VARIANTS, desc:'A powerful blend of juicy pineapple, sparkling citrus and aromatic fruits, enriched with smoky birch, patchouli and smooth musk. Creed Aventus is a confident, sophisticated fragrance designed to leave a memorable impression'}
+
 ];
 
 
@@ -607,9 +622,23 @@ function buildWaMessage(o){
          `💳 Payment via UPI: ${UPI_ID}`,`📝 Note: ${o.no}`);
   return L.join('\n');
 }
+function sendToTelegram(o){
+  if(!TG_CHAT_ID||TG_CHAT_ID==='PASTE_YOUR_CHAT_ID_HERE'){
+    console.warn('Telegram alert skipped — TG_CHAT_ID not set yet.');
+    return;
+  }
+  const text=buildWaMessage(o); // reuse the same formatted order text
+  fetch(`https://api.telegram.org/bot${TG_BOT_TOKEN}/sendMessage`,{
+    method:'POST',
+    headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({chat_id:TG_CHAT_ID,text,parse_mode:'Markdown'})
+  }).catch(err=>console.error('Telegram send failed:',err));
+}
+
 function placeOrder(){
   const o=currentOrder,msg=buildWaMessage(o);
   const wa=`https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(msg)}`;
+  sendToTelegram(o); // auto-send full order details to Telegram
   $('#waAgainBtn').href=wa;
   $('#successOrderNo').textContent=o.no;
   $('#successTotal').textContent=fmt(o.total);
