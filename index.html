@@ -288,16 +288,11 @@ footer b{color:#fff}
 
 <footer id="contact">
   <div class="ft">
-    <div><h3>AL‑HAMMAD</h3><p>Attar &amp; Perfume House.
-    
-      </a><br>Luxury attars, ouds &amp; French perfumes in 6ml / 10ml / 12ml — delivered across India.<a href="Hammad.html">
-        </p><span class="icon">🪛</span> <span>Tool</span>
-      </a></div>
+    <div><h3>AL‑HAMMAD</h3><p>Attar &amp; Perfume House. Luxury attars, ouds &amp; French perfumes in 6ml / 10ml / 12ml — delivered across India.</p></div>
     <div><h3>Contact</h3><p>📞 <b>9781374993</b><br>💬 WhatsApp: <b>+91 97813 74993</b><br>📍 <b>Malerkotla, Punjab</b></p></div>
     <div><h3>Categories &amp; Delivery</h3><p>🌿 Attars • ✨ Perfumes<br>💳 UPI: <b>9781374993-3@ybl</b><br>🚚 Delivery: <b>FREE</b> across India (₹0)</p></div>
   </div>
-  <div class="ft-bottom">© 2026 ibruSoft. All rights reserved.
-    
+  <div class="ft-bottom">© 2026 ibruSoft. All rights reserved.</div>
 </footer>
 
 <div id="overlay" onclick="closeCart()"></div>
@@ -309,70 +304,15 @@ footer b{color:#fff}
 <a class="fab" href="https://wa.me/919781374993" target="_blank" title="Chat on WhatsApp">💬</a>
 <div id="toast"></div>
 
+<script src="products.js"></script>
+
 <script>
 /* ============ CONFIG ============ */
 const UPI_ID   = '9781374993-3@ybl';
 const WA_NUMBER= '919781374993';
-/* Telegram order alerts — get your CHAT_ID by messaging the bot then visiting
-   https://api.telegram.org/bot<TOKEN>/getUpdates in a browser */
-const TG_BOT_TOKEN = '8878946512:AAGmaQhdGBrmRdx4xYvD-arim28YJgbhGYE';
-const TG_CHAT_ID   = '5533536897';
-
-
-/* 🧴 PRODUCT VARIATIONS — edit prices here once, applies to all cards */
-const ATTAR_VARIANTS=[
-  {label:'6ml', price:299},
-  {label:'12ml', price:599}
-
-
-
-];
-const SIZE_VARIANTS=[
-  {label:'50ml', price:799},
-  {label:'100ml', price:1299}
-];
-
-/* const MINI_VARIANTS=[
-  {label:'1ml', price:1},
-
-   ];*/
-
-
-const CATEGORIES=["All","Attar","Perfume"];
-
-const PRODUCTS = [
-
- /*---------Add Products ---------*/
- {id:'p1',name:'Ambery Nights', tag:'Gift Set', cat:'Attar', wt:0.5, img:'images/Ambery Nights.png', variants:ATTAR_VARIANTS, desc:'Make every moment memorable with the timeless charm of Premium Attar.'},
- {id:'p2',name:'Shanaya Perfume', tag:'New', cat:'Perfume', wt:0.25, img:'images/Shanaya Perfume.jpg', variants:SIZE_VARIANTS, desc:'Our house fragrance — warm amber, soft florals & musk in a frosted glass flacon.'},
- {id:'p3',name:'Shanaya Attar', tag:'Attar', cat:'Attar', wt:0.15, img:'images/shanaya-attar.jpg', variants:ATTAR_VARIANTS, desc:'Royal golden attar with rich oriental notes. Long‑lasting & alcohol‑free.'},
- {id:'p4',name:'Aqua‑CK', tag:'New', cat:'Attar', wt:0.25, img:'images/Aqua-ck.png', variants:ATTAR_VARIANTS, desc:'Vibrant citrus‑aquatic fragrance in artistic crackle glass.'},
- {id:'p7',name:'Choco Oud', tag:'Bestseller', cat:'Attar', wt:0.25, img:'images/Choco Oud.png', variants:ATTAR_VARIANTS, desc:'Our house fragrance — warm amber, soft florals & musk in a frosted glass flacon.'},
- {id:'p8',name:'Coco Chanel', tag:'New', cat:'Attar', wt:0.02, img:'images/Coco Chanel.png', variants:ATTAR_VARIANTS, desc:'Premium Quality Attar - Without Alcohol'},
- {id:'p9',name:'CR-7', tag:'Premium', cat:'Attar', wt:0.02, img:'images/CR-7.png', variants:ATTAR_VARIANTS, desc:'Renaldo Favorite attar - Premium Quality Attar - Without Alcohol'},
- {id:'p10',name:'Creed Aventus', tag:'Premium', cat:'Attar', wt:0, img:'images/Creed Aventus.png', variants:ATTAR_VARIANTS, desc:'Premium Quality Attar - Without Alcohol'},
- {id:'p11',name:'Daring Avenue', tag:'Limited', cat:'Attar', wt:0.03, img:'images/Daring Avenue.png', variants:ATTAR_VARIANTS, desc:'Premium Quality Attar - Without Alcohol'},
- {id:'p12',name:'Divine Essence', tag:'Attar', cat:'Attar', wt:0.03, img:'images/Divine Essence.png', variants:ATTAR_VARIANTS, desc:'No Alcohol'},
- {id:'p13',name:'Gucci Flora', tag:'New', cat:'Attar', wt:0, img:'images/Gucci Flora.png', variants:ATTAR_VARIANTS, desc:'Alcohol free'},
- {id:'p14',name:'Jasmine', tag:'Attar', cat:'Attar', wt:0.03, img:'images/Jasmine.png', variants:ATTAR_VARIANTS, desc:'Alcohol free'},
- {id:'p15',name:'Lady Macbeth', tag:'New', cat:'Attar', wt:0.03, img:'images/Lady Macbeth.png', variants:ATTAR_VARIANTS, desc:'Alcohol free'},
- {id:'p16',name:'Liberated Girl', tag:'Attar', cat:'Attar', wt:0, img:'images/Liberated Girl.png', variants:ATTAR_VARIANTS, desc:'Liberated Girl'},
- {id:'p17',name:'Parisian Lanes', tag:'Attar', cat:'Attar', wt:0, img:'images/Parisian Lanes.png', variants:ATTAR_VARIANTS, desc:'Parisian Lanes'},
- {id:'p18',name:'Silk Fleur', tag:'New', cat:'Attar', wt:0.02, img:'images/Silk Fleur.png', variants:ATTAR_VARIANTS, desc:'Silk Fleur'},
- {id:'p19',name:'Vampire Red', tag:'New', cat:'Attar', wt:0, img:'images/Vampire Red.png', variants:ATTAR_VARIANTS, desc:'Vampire Red'},
- {id:'p20',name:'White Oud', tag:'Attar', cat:'Attar', wt:0.01, img:'images/White Oud.png', variants:ATTAR_VARIANTS, desc:'White Oud'},
- {id:'p21',name:'Wild Boulevard', tag:'Unisex', cat:'Attar', wt:0.01, img:'images/Wild Boulevard.png', variants:ATTAR_VARIANTS, desc:'Wild Boulevard'},
- {id:'p5',name:'Cr-7 Perfume', tag:'Premium', cat:'Perfume', wt:0, img:'images/Cr-7 Perfume.jpg', variants:SIZE_VARIANTS, desc:'A bold, masculine and energetic fragrance inspired by the confidence and sporting spirit of Cristiano Ronaldo. CR7 opens with a fresh blend of bergamot, lavender and spicy cardamom, develops into a warm heart of tobacco, cinnamon, cedarwood and iris, and settles into a smooth base of vanilla, musk, sandalwood and amber.'},
- {id:'p6',name:'Wild Boulevard Perfume', tag:'Limited', cat:'Perfume', wt:0, img:'images/Wild Boulevard Perfume.jpg', variants:SIZE_VARIANTS, desc:'A powerful blend of fresh citrus, spicy warmth and smooth musk. Wild Boulevard is designed for the confident man who wants to leave a fresh, sophisticated and unforgettable impression.'},
- {id:'p22',name:'Vampire Blood Perfume', tag:'Bestseller', cat:'Perfume', wt:0, img:'images/Vampire Red Perfume.jpg', variants:SIZE_VARIANTS, desc:'A dark and captivating blend of juicy berries, blooming jasmine and luscious plum. Vampire Blood creates a mysterious, sweet and seductive aura that leaves an unforgettable impression.'},
- {id:'p23',name:'White Oud Perfume', tag:'Premium', cat:'Perfume', wt:0, img:'images/White Oud Perfume.jpg', variants:SIZE_VARIANTS, desc:'A luxurious fusion of fresh citrus, elegant florals and rich oud, beautifully balanced with creamy woods, warm amber and soft musk. White Oud leaves a smooth, sophisticated and unforgettable impression.'},
- {id:'p24',name:'Coco Chanel Perfume', tag:'Unisex', cat:'Perfume', wt:0, img:'images/Coco Chanel perfume.jpg', variants:SIZE_VARIANTS, desc:'“A timeless and captivating fragrance blending sparkling mandarin with luxurious florals and a warm, sensual base. Coco Chanel creates an elegant, feminine aura with a sophisticated and unforgettable finish.”'},
- {id:'p25',name:'Choco oud Perfume', tag:'Premium', cat:'Perfume', wt:0, img:'images/Choco Oud Perfume.jpg', variants:SIZE_VARIANTS, desc:'A luxurious fusion of rich chocolate, creamy vanilla and exotic oud, finished with warm woods and soft musk. Choco Oud is a deep, seductive fragrance made to leave a deliciously unforgettable impression.'},
- {id:'p26',name:'Gucci Flora Perfume', tag:'Premium', cat:'Perfume', wt:0, img:'images/Gucci Flora Perfume.jpg', variants:SIZE_VARIANTS, desc:'A beautiful blend of fresh mandarin, delicate florals and warm vanilla woods. Gucci Flora creates a graceful, feminine and captivating aura with a soft, elegant finish'},
- {id:'p27',name:'Creed Aventus Perfume', tag:'Bestseller', cat:'Perfume', wt:0, img:'images/Creed Aventus Perfume.jpg', variants:SIZE_VARIANTS, desc:'A powerful blend of juicy pineapple, sparkling citrus and aromatic fruits, enriched with smoky birch, patchouli and smooth musk. Creed Aventus is a confident, sophisticated fragrance designed to leave a memorable impression'}
-
-];
-
+/* Telegram order alerts are sent via the secure /api/send-order
+   serverless function — the bot token & chat id live only in server
+   environment variables (.env), never in this file. */
 
 const STATES=['Punjab','Haryana','Delhi','Chandigarh','Jammu & Kashmir','Ladakh','Himachal Pradesh','Uttarakhand','Uttar Pradesh','Rajasthan','Madhya Pradesh','Chhattisgarh','Bihar','Jharkhand','West Bengal','Odisha','Assam','Meghalaya','Mizoram','Tripura','Manipur','Nagaland','Arunachal Pradesh','Sikkim','Gujarat','Maharashtra','Goa','Karnataka','Telangana','Andhra Pradesh','Tamil Nadu','Kerala','Puducherry','Andaman & Nicobar','Lakshadweep','Dadra & Nagar Haveli & Daman & Diu'];
 
@@ -604,7 +544,7 @@ function startCountdown(){
     else b.textContent=`⏳ Place Order in ${t}s`;},1000);
 }
 
-/* ============ PLACE ORDER → WHATSAPP ============ */
+/* ============ PLACE ORDER → WHATSAPP + TELEGRAM ============ */
 function buildWaMessage(o){
   const L=[];
   L.push('🛍️ *NEW ORDER — AL-HAMMAD*');
@@ -620,23 +560,29 @@ function buildWaMessage(o){
          `💳 Payment via UPI: ${UPI_ID}`,`📝 Note: ${o.no}`);
   return L.join('\n');
 }
-function sendToTelegram(o){
-  if(!TG_CHAT_ID||TG_CHAT_ID==='PASTE_YOUR_CHAT_ID_HERE'){
-    console.warn('Telegram alert skipped — TG_CHAT_ID not set yet.');
-    return;
-  }
-  const text=buildWaMessage(o); // reuse the same formatted order text
-  fetch(`https://api.telegram.org/bot${TG_BOT_TOKEN}/sendMessage`,{
+
+/* Sends the order text to our team's Telegram via the secure serverless
+   endpoint. Best-effort: if it fails, the WhatsApp message (opened right
+   after) is still the customer's order record, so we never block on this. */
+function sendOrderToTelegram(o){
+  const text=buildWaMessage(o);
+  return fetch('/api/send-order',{
     method:'POST',
     headers:{'Content-Type':'application/json'},
-    body:JSON.stringify({chat_id:TG_CHAT_ID,text,parse_mode:'Markdown'})
-  }).catch(err=>console.error('Telegram send failed:',err));
+    body:JSON.stringify({text})
+  })
+  .then(r=>r.json())
+  .then(data=>{
+    if(!data.ok){console.error('Telegram order alert failed:',data);}
+    return data;
+  })
+  .catch(err=>console.error('Telegram order alert error:',err));
 }
 
 function placeOrder(){
   const o=currentOrder,msg=buildWaMessage(o);
   const wa=`https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(msg)}`;
-  sendToTelegram(o); // auto-send full order details to Telegram
+  sendOrderToTelegram(o); // best-effort team alert via secure server endpoint
   $('#waAgainBtn').href=wa;
   $('#successOrderNo').textContent=o.no;
   $('#successTotal').textContent=fmt(o.total);
